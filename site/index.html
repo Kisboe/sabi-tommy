@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sabi &amp; Tom — 24.10.2027 — prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Norican&family=Alex+Brush&family=Anton&family=Boldonse&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Caveat+Brush&family=Happy+Monkey&family=Dancing+Script:wght@400..700&family=Anonymous+Pro:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --f-script:'Norican',cursive;
+  --f-script2:'Dancing Script',cursive;
+  --f-script3:'Alex Brush',cursive;
+  --f-display:'Anton',sans-serif;
+  --f-display2:'Boldonse',sans-serif;
+  --f-body:'DM Mono',monospace;
+  --f-poster:'Caveat Brush',cursive;
+  --f-ui:'Anonymous Pro',monospace;
+  --f-alt:'Happy Monkey',sans-serif;
+
+  --paper:#f7f2e8;
+  --paper2:#efe7d8;
+  --ink:#22302a;
+  --ink-soft:#4d6154;
+  --green:#2f5d43;
+  --green-d:#1d3b2b;
+  --sage:#8aa892;
+  --gold:#b0864b;
+  --blush:#d8b7a6;
+  --line:rgba(34,48,42,.16);
+  --note:#b4472e;
+  --maxw:760px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:15px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+body.locked{overflow:hidden}
+img{max-width:100%}
+a{color:var(--green);text-underline-offset:3px}
+
+/* ---------- chrome (prototype only, not site copy) ---------- */
+#chrome{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;gap:10px;align-items:center;justify-content:flex-end;
+  padding:9px 14px;background:rgba(247,242,232,.86);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);font-family:var(--f-ui);font-size:12px;
+}
+#chrome .tag{margin-right:auto;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-size:10px}
+.btn-chrome{
+  font-family:var(--f-ui);font-size:12px;letter-spacing:.06em;
+  border:1px solid var(--line);background:transparent;color:var(--ink);
+  padding:5px 10px;border-radius:999px;cursor:pointer;
+}
+.btn-chrome:hover{border-color:var(--green);color:var(--green)}
+.btn-chrome[aria-pressed="true"]{background:var(--note);border-color:var(--note);color:#fff}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{
+  font-family:var(--f-ui);font-size:12px;letter-spacing:.08em;
+  border:0;background:transparent;color:var(--ink-soft);padding:5px 12px;cursor:pointer;
+}
+.lang button[aria-current="true"]{background:var(--green);color:var(--paper)}
+
+/* ---------- login gate ---------- */
+#gate{
+  position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 35%,#3b6b4f 0%,#1d3b2b 60%,#152b1f 100%);
+  padding:24px;text-align:center;
+}
+#gate.gone{opacity:0;pointer-events:none;transform:scale(1.04);transition:opacity .7s ease,transform .7s ease}
+.envelope{
+  width:min(340px,80vw);aspect-ratio:3/2;margin:0 auto 30px;position:relative;
+  background:var(--paper2);border-radius:4px;box-shadow:0 24px 60px rgba(0,0,0,.4);
+  animation:float 5s ease-in-out infinite;
+}
+.envelope::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 49.4%,var(--line) 49.4%,var(--line) 50.6%,transparent 50.6%),
+             linear-gradient(-135deg,transparent 49.4%,var(--line) 49.4%,var(--line) 50.6%,transparent 50.6%);
+}
+.envelope::after{
+  content:"";position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
+  width:54px;height:54px;border-radius:50%;background:var(--blush);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);
+}
+.envelope .seal{
+  position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
+  font-family:var(--f-script3);font-size:34px;color:#7a4433;z-index:2;line-height:1;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+#gate h1{
+  font-family:var(--f-script);font-weight:400;font-size:clamp(34px,7vw,58px);
+  color:var(--paper);margin:0 0 26px;line-height:1.2;
+}
+.gate-form{display:flex;flex-direction:column;gap:10px;align-items:center;width:min(320px,86vw);margin:0 auto}
+.gate-form label{
+  font-family:var(--f-ui);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(247,242,232,.72);
+}
+.gate-form input{
+  width:100%;font-family:var(--f-ui);font-size:16px;letter-spacing:.18em;text-align:center;
+  padding:13px 14px;border:1px solid rgba(247,242,232,.35);border-radius:2px;
+  background:rgba(247,242,232,.07);color:var(--paper);text-transform:uppercase;
+}
+.gate-form input:focus{outline:none;border-color:var(--blush);background:rgba(247,242,232,.13)}
+.gate-form button{
+  width:100%;font-family:var(--f-ui);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  padding:13px;border:0;border-radius:2px;background:var(--paper);color:var(--green-d);cursor:pointer;
+}
+.gate-form button:hover{background:var(--blush)}
+.gate-hint{font-family:var(--f-ui);font-size:11px;color:rgba(247,242,232,.55);margin-top:14px;line-height:1.6}
+.gate-err{font-family:var(--f-ui);font-size:12px;color:var(--blush);min-height:18px}
+.lang-dark{margin-top:22px;border-color:rgba(247,242,232,.3)}
+.lang-dark button{color:rgba(247,242,232,.65)}
+.lang-dark button[aria-current="true"]{background:var(--paper);color:var(--green-d)}
+
+/* ---------- layout ---------- */
+main{max-width:var(--maxw);margin:0 auto;padding:74px 22px 120px}
+section{padding:64px 0;border-top:1px solid var(--line);position:relative}
+section:first-of-type{border-top:0}
+.snum{
+  position:absolute;top:64px;left:-54px;font-family:var(--f-ui);font-size:10px;
+  letter-spacing:.18em;color:var(--sage);
+}
+@media(max-width:900px){.snum{position:static;display:block;margin-bottom:10px}}
+
+/* type roles, straight from the per-section doc annotations */
+.t-script{font-family:var(--f-script);font-weight:400;line-height:1.25}
+.t-script2{font-family:var(--f-script2);font-weight:600;line-height:1.3}
+.t-display{font-family:var(--f-display);font-weight:400;letter-spacing:.02em;text-transform:uppercase;line-height:1.1}
+.t-poster{font-family:var(--f-poster);line-height:1.15}
+.t-ui{font-family:var(--f-ui);letter-spacing:.14em;text-transform:uppercase}
+.t-body{font-family:var(--f-body)}
+
+h2{margin:0 0 22px;font-weight:400}
+h2.t-script{font-size:clamp(30px,5.4vw,44px);color:var(--green)}
+h2.t-script2{font-size:clamp(28px,5vw,40px);color:var(--green)}
+h2.t-display{font-size:clamp(24px,4.4vw,34px);color:var(--ink)}
+h2.t-poster{font-size:clamp(30px,5.6vw,46px);color:var(--green)}
+p{margin:0 0 16px}
+.lead{font-size:15px}
+.quiet{color:var(--ink-soft)}
+
+/* hero */
+#s02{text-align:center;padding-top:26px}
+#s02 .kicker{font-family:var(--f-script);font-size:clamp(28px,5.6vw,44px);color:var(--green)}
+#s02 .names{font-family:var(--f-display);font-size:clamp(52px,15vw,120px);letter-spacing:.01em;margin:6px 0 18px;text-transform:uppercase}
+#s02 .scroll{font-family:var(--f-ui);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* countdown */
+#s03{text-align:center}
+.cd-pre{font-family:var(--f-display);font-size:clamp(18px,3.4vw,26px);text-transform:uppercase;letter-spacing:.04em}
+.cd-quote{font-family:var(--f-script);font-size:clamp(34px,7vw,58px);color:var(--green);margin:2px 0 26px}
+.cd-grid{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.cd-cell{min-width:78px;padding:12px 8px;border:1px solid var(--line);border-radius:3px;background:var(--paper2)}
+.cd-cell b{display:block;font-family:var(--f-poster);font-size:34px;font-weight:400;color:var(--green);line-height:1}
+.cd-cell span{font-family:var(--f-ui);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* placeholders for missing art */
+.ph{
+  border:1px dashed var(--sage);border-radius:3px;background:repeating-linear-gradient(45deg,transparent,transparent 9px,rgba(138,168,146,.11) 9px,rgba(138,168,146,.11) 18px);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-family:var(--f-ui);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);
+  padding:16px;min-height:150px;
+}
+.ph-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+@media(max-width:560px){.ph-row{grid-template-columns:1fr}}
+.ph-tv{aspect-ratio:4/3;margin:22px 0}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:104px 1fr;gap:16px;padding:16px 0;border-bottom:1px dotted var(--line)}
+.tl li:last-child{border-bottom:0}
+.tl .time{font-family:var(--f-poster);font-size:26px;color:var(--gold);line-height:1.1}
+.tl .name{font-family:var(--f-script);font-size:25px;color:var(--green);line-height:1.15}
+.tl .desc{margin:2px 0 0;font-size:14px;color:var(--ink-soft)}
+@media(max-width:560px){.tl li{grid-template-columns:1fr;gap:2px}}
+
+/* callouts */
+.card{border:1px solid var(--line);border-radius:3px;background:var(--paper2);padding:20px 22px;margin:22px 0}
+.rates{list-style:none;margin:8px 0 0;padding:0}
+.rates li{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px dotted var(--line)}
+.rates li:last-child{border-bottom:0}
+.code-chip{
+  display:inline-block;font-family:var(--f-ui);letter-spacing:.16em;text-transform:uppercase;
+  background:var(--green);color:var(--paper);padding:4px 12px;border-radius:2px;font-size:13px;
+}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{
+  font-family:var(--f-ui);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  border:1px solid var(--green);color:var(--green);background:transparent;
+  padding:10px 16px;border-radius:2px;cursor:pointer;text-decoration:none;display:inline-block;
+}
+.btn:hover{background:var(--green);color:var(--paper)}
+.btn.solid{background:var(--green);color:var(--paper)}
+.btn.solid:hover{background:var(--green-d);border-color:var(--green-d)}
+
+/* stamp / gifts */
+.stamp{
+  width:140px;height:170px;border:2px dashed var(--gold);border-radius:4px;background:var(--paper2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  cursor:pointer;font-family:var(--f-ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);text-align:center;padding:12px;
+}
+.stamp:hover{background:#fff}
+.stamp .big{font-family:var(--f-script3);font-size:40px;color:var(--gold);letter-spacing:0;text-transform:none}
+.bank{display:none;margin-top:14px}
+.bank.open{display:block}
+
+/* faq */
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{
+  cursor:pointer;list-style:none;padding:15px 30px 15px 0;position:relative;
+  font-family:var(--f-script);font-size:22px;color:var(--green);line-height:1.3;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:15px;font-family:var(--f-ui);font-size:18px;color:var(--sage)}
+.faq details[open] summary::after{content:"–"}
+.faq .ans{padding:0 0 18px;font-size:14px;color:var(--ink-soft)}
+
+/* forms */
+.field{margin:0 0 20px}
+.field > label,.qlabel{
+  display:block;font-family:var(--f-ui);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:8px;
+}
+.req{color:var(--note)}
+input[type=text],textarea{
+  width:100%;font-family:var(--f-body);font-size:14px;padding:11px 12px;
+  border:1px solid var(--line);border-radius:2px;background:#fff;color:var(--ink);
+}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--green)}
+textarea{min-height:84px;resize:vertical}
+.opt{display:flex;gap:9px;align-items:flex-start;padding:6px 0;font-size:14px;cursor:pointer}
+.opt input{margin-top:4px;accent-color:var(--green)}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+@media(max-width:560px){.chips{grid-template-columns:1fr}}
+.guest-block{border:1px solid var(--line);border-radius:3px;padding:16px 18px;margin:0 0 14px;background:var(--paper2)}
+.guest-block h4{margin:0 0 12px;font-family:var(--f-script);font-weight:400;font-size:22px;color:var(--green)}
+.guest-block[hidden]{display:none}
+.sent{
+  display:none;border:1px solid var(--green);background:#fff;border-radius:3px;padding:18px 20px;margin-top:18px;
+  font-family:var(--f-ui);font-size:12px;letter-spacing:.08em;color:var(--green);
+}
+.sent.show{display:block}
+
+/* dev notes */
+.note{
+  display:none;border-left:3px solid var(--note);background:rgba(180,71,46,.07);
+  padding:10px 14px;margin:14px 0;font-family:var(--f-ui);font-size:11.5px;line-height:1.65;color:#7d3020;
+  letter-spacing:.01em;
+}
+body.notes .note{display:block}
+.note b{letter-spacing:.1em;text-transform:uppercase;font-size:10px;display:block;margin-bottom:3px}
+
+
+/* ---------- template graphics ---------- */
+.deco{position:absolute;pointer-events:none;user-select:none;z-index:1}
+section{overflow:visible}
+.star{width:34px;opacity:.9}
+.star.s{width:22px}
+.star.l{width:52px}
+#gate{background:#1d3b2b}
+#gate .gbg{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  filter:brightness(.55) saturate(1.05);
+}
+#gate .gbg::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(29,59,43,.25) 0%,rgba(21,43,31,.8) 100%)}
+#gate > div{position:relative;z-index:2}
+#gate .gstar{position:absolute;z-index:3;pointer-events:none}
+#s02{
+  position:relative;color:var(--paper);border-radius:6px;overflow:hidden;
+  padding:78px 26px 64px;margin-top:6px;
+}
+#s02 .hbg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.62)}
+#s02 .hbg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,43,31,.35),rgba(21,43,31,.6))}
+#s02 > *{position:relative;z-index:2}
+#s02 .kicker{color:#f2d9a8}
+#s02 .names{color:var(--paper);text-shadow:0 2px 20px rgba(0,0,0,.35)}
+#s02 .scroll{color:#f2d9a8}
+#s02 .barstars{display:block;margin:16px auto 0;max-width:420px;opacity:.95}
+.cdband{position:relative;border-radius:6px;overflow:hidden;padding:30px 18px;margin-top:6px}
+.cdband .cbg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.45) saturate(.9)}
+.cdband > *{position:relative;z-index:2}
+.cdband .cd-pre{color:#f7f2e8}
+.cdband .cd-quote{color:#f2d9a8}
+.cdband .cd-cell{background:rgba(247,242,232,.92);border-color:rgba(247,242,232,.5)}
+.ill{display:block;margin:0 auto;max-width:100%}
+.ill-row{display:flex;gap:18px;align-items:flex-end;justify-content:center;flex-wrap:wrap;margin:26px 0}
+.iconrow{display:flex;gap:22px;align-items:center;justify-content:center;flex-wrap:wrap;margin:22px 0}
+.iconrow img{width:56px;height:auto}
+.framed{position:relative;max-width:460px;margin:26px auto}
+.framed .fimg{display:block;width:86%;margin:0 auto;border-radius:3px}
+.framed .fov{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.tvwrap{position:relative;max-width:560px;margin:26px auto}
+.tvwrap .tvov{display:block;width:100%}
+.tvwrap .tvscreen{
+  position:absolute;left:12.5%;top:13%;width:75%;height:60%;
+  background:#243a2c;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  color:#cbe0d1;font-family:var(--f-ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:10px;
+}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0}
+.gallery img{width:100%;height:150px;object-fit:cover;border-radius:3px;display:block}
+.gallery img:first-child{grid-column:1 / -1;height:230px}
+@media(max-width:560px){.gallery{grid-template-columns:1fr 1fr}.gallery img{height:120px}}
+.tl li{grid-template-columns:104px 62px 1fr}
+.tl .tlicon{width:54px;height:auto;align-self:center}
+@media(max-width:560px){.tl li{grid-template-columns:1fr}.tl .tlicon{width:46px}}
+.menurow{display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:start;padding:12px 0;border-bottom:1px dotted var(--line)}
+.menurow:last-child{border-bottom:0}
+.menurow img{width:76px;height:auto}
+.menurow p{margin:0}
+
+.stampimg{width:150px;cursor:pointer;transition:transform .2s}
+.stampimg:hover{transform:rotate(-3deg) scale(1.03)}
+.contactline{display:flex;gap:10px;align-items:center;margin:4px 0}
+.contactline img{width:26px}
+.polaroids{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:24px 0}
+.polaroids img{width:190px}
+.faqdeco{display:block;margin:0 auto 10px;max-width:220px;opacity:.9}
+.waxrow{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+.waxrow img{width:74px}
+
+
+.iconrow img{width:auto;height:52px}
+.tl .tlicon{width:auto;height:56px;justify-self:center}
+.menurow{grid-template-columns:70px 1fr}
+.menurow img{width:auto;height:66px;justify-self:center}
+.bico{width:auto;height:16px;vertical-align:-3px;margin-right:7px}
+.contactline img{width:auto;height:24px}
+.star{width:auto;height:34px}
+.star.s{height:22px}
+.star.l{height:52px}
+#gate .gstar{height:auto}
+.faqdeco{max-width:180px}
+.waxrow img{width:auto;height:70px}
+.polaroids img{width:auto;height:210px}
+
+footer{
+  max-width:var(--maxw);margin:0 auto;padding:0 22px 60px;
+  font-family:var(--f-ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);text-align:center;
+}
+</style>
+</head>
+<body class="locked">
+
+<div id="chrome" hidden>
+  <span class="tag" id="chromeTag">Prototype · copy + language switch only</span>
+  <button class="btn-chrome" id="notesBtn" aria-pressed="false">Notes</button>
+  <button class="btn-chrome" id="lockBtn">Lock</button>
+  <span class="lang">
+    <button data-lang="en" aria-current="true">EN</button>
+    <button data-lang="es" aria-current="false">ES</button>
+  </span>
+</div>
+
+<div id="gate">
+  <div class="gbg" style="background-image:url(assets/bg-garden.webp)"></div>
+  <img class="gstar" src="assets/star-yellow.webp" alt="" style="width:74px;left:6%;top:22%">
+  <img class="gstar" src="assets/star-pastel.webp" alt="" style="width:52px;right:8%;top:30%">
+  <img class="gstar" src="assets/star-pastel.webp" alt="" style="width:38px;left:12%;bottom:22%">
+  <img class="gstar" src="assets/star-yellow.webp" alt="" style="width:44px;right:12%;bottom:18%">
+  <div>
+    <div class="envelope"><span class="seal">S&amp;T</span></div>
+    <h1 id="gateTitle">You've got a mail!</h1>
+    <form class="gate-form" id="gateForm">
+      <label id="gateLabel" for="code">Invitation code</label>
+      <input id="code" type="text" autocomplete="off" spellcheck="false" placeholder="SABITOM">
+      <div class="gate-err" id="gateErr"></div>
+      <button type="submit" id="gateBtn">Open invitation</button>
+    </form>
+    <p class="gate-hint" id="gateHint">Prototype — no backend. Any code opens the site.</p>
+    <span class="lang lang-dark">
+      <button data-lang="en" aria-current="true">EN</button>
+      <button data-lang="es" aria-current="false">ES</button>
+    </span>
+  </div>
+</div>
+
+<main id="site" hidden></main>
+<footer id="foot" hidden></footer>
+
+<script>
+/* ============================================================
+   COPY — extracted 2026-08-11 from the per-section Google Docs
+   (SITE-COPY.md). Wording is verbatim, including the Spanish
+   "ustedes" register that is still due to be rewritten in M0.
+   ============================================================ */
+const COPY = {
+en:{
+  chrome:{tag:"Prototype · shared copy · contact + bank details redacted", notes:"Notes", lock:"Lock"},
+  gate:{title:"You've got a mail!", label:"Invitation code", btn:"Open invitation",
+        hint:"Prototype — no backend. Any code opens the site.",
+        err:"Please enter your invitation code."},
+  nav:{},
+  s02:{kicker:"We are getting married!", names:"Sabi & Tom", scroll:"Scroll down to rsvp"},
+  s03:{pre:"Days until we say", quote:"“I do”",
+       u:["days","hours","minutes","seconds"]},
+  s04:{line:"Always and forever!", ph:["Sabi — childhood photo","Tom — childhood photo"]},
+  s05:{ph:"Retro TV frame · photobooth video (05)",
+       date:"Sunday, 24th October 2027", time:"12:00",
+       v1:"Hotel Botánico & The Oriental Spa Garden", v2:"Puerto de la Cruz, Tenerife",
+       body:"We are so happy to share this special day with you."},
+  s06:{title:"A few words", p:[
+    "After eight years of sharing adventures, unforgettable moments, and building our life together, the time has finally come to celebrate one of the most special days of our journey.",
+    "Along the way, we have grown together, created countless memories, and experienced the greatest adventure of all: building our family with the arrival of Mateo.",
+    "We want this wedding to be much more than just a celebration; we want to enjoy every moment, laugh, toast, and create memories surrounded by the people who are part of our story.",
+    "Thank you for being part of our journey and for sharing this very special day with us."]},
+  s07:{title:"Are you travelling from the UK?", p:[
+    "We are so excited that you are travelling to celebrate this day with us!",
+    "We have prepared a small travel guide with useful information to help you plan your stay in Tenerife, including how to get here, where to stay, transport recommendations, places to visit, and some of our favourite spots to eat."],
+    cta:"You can download it here:", btn:"Travel guide (PDF)"},
+  s08:{title:"Where?", p:[
+    "Our wedding will take place at the gardens of the beautiful Hotel Botánico & The Oriental Spa Garden, in Puerto de la Cruz, Tenerife.",
+    "A very special place for us, where we will celebrate this important day surrounded by nature, tranquillity, and beauty.",
+    "We couldn't have imagined a better setting for our wedding, or a more amazing team to help us bring this day to life. We are incredibly grateful to be able to celebrate here and can't wait to share this special place with you."],
+    v1:"Hotel Botánico & The Oriental Spa Garden", v2:"Puerto de la Cruz, Tenerife",
+    ph:["Hotel gardens (08)","Ceremony setting (08)"],
+    b1:"Open in Google Maps", b2:"Add to calendar"},
+  s09:{title:"Rest and relax", p:[
+    "If you would like to enjoy the full experience and stay at the same place where we will celebrate our wedding, we have arranged special rates for our guests at Hotel Botánico & The Oriental Spa Garden.",
+    "Also, if you're planning to make the most of the open bar, we'd definitely recommend staying at the hotel, so you can simply relax and enjoy the celebration without worrying about getting home. Plus, we'd love to see you all again at breakfast the next morning, unwind by the pool… and catch up on all the wedding gossip!"],
+    codeIntro:"To access these special rates, simply use the discount code", codeOutro:"All the hotel information it's also in the downloadable travel guide.",
+    ratesTitle:"Rates", ratesSub:"Deluxe Room (Teide View or Spa View) — October 2027",
+    rates:[["Single occupancy","€193"],["Double occupancy","€228"]]},
+  s10:{title:"TIMELINE",
+    note:"(Please arrive at 12:30 to the hotel and come with plenty of time to park and get to the hotel so everything run smoothly)",
+    items:[
+      ["13:00","Ceremony","We will begin the celebration with the ceremony in the hotel gardens."],
+      ["14:00","Cocktail Reception","Welcome drinks and canapés in the gardens."],
+      ["15:00","Wedding Breakfast","A seated wedding meal will be served in the main dining room."],
+      ["19:00","Cake Cutting","Cake cutting."],
+      ["20:00","Party","Dancing, two hours of open bar, and music to enjoy the evening."],
+      ["23:00","Send Off","End of the celebration."]]},
+  s11:{title:"MENÚ", p:[
+    "We have prepared a special dining experience for the day.",
+    "We will begin with a welcome cocktail and a selection of appetisers served in the hotel gardens.",
+    "Afterwards, we will enjoy a seated lunch. The menu includes a vegetarian option and a special menu for the little ones.",
+    "We'll also cut the wedding cake before the dancing.",
+    "And because dancing always works up an appetite, we'll have a selection of savoury and sweet treats during the party, alongside two hours of open bar.",
+    "Please leave the vegetarian savoury snacks for guests who do not eat beef or pork, so everyone has something to enjoy."]},
+  s12:{title:"Dress Code", p:[
+    "The dress code will be <strong>Garden Formal</strong>.",
+    "We are looking for a style that feels special and well put together, while still allowing you to feel comfortable and be yourselves.",
+    "As the celebration will take place in the hotel gardens, we recommend avoiding thin heels if possible.",
+    "And if you do choose shoes that turn out not to be as comfortable as expected, don't worry. The hotel has a selection of shoes available in different sizes.",
+    "Please keep in mind that the wedding will take place in October, so we recommend bringing a light jumper, cardigan, or jacket in case it gets cooler later in the day."],
+    ph:["Moodboard collage — asset missing (12)","Moodboard collage — asset missing (12)"]},
+  s13:{title:"Gifts", p:[
+    "The most important thing for us is having you there and being able to share this special day together.",
+    "If you would like to give us a gift, we have arranged the option to do so via bank transfer, which will help us continue building our life together and maybe a family honeymoon with Mateo.",
+    "Thank you so much for being part of our story and for celebrating this moment with us."],
+    uk:"<strong>FROM THE UK</strong> — Please send the gift via bank transfer to Tom.",
+    stamp:"Tap the stamp", bankTitle:"Bank transfer",
+    bank:["Account: ••••••••","Sort: ••••••"],
+    masked:"Real account details are masked in this prototype."},
+  s14:{title:"Would you like to prepare a surprise?", p:[
+    "Do you have a special idea to surprise us during the celebration?",
+    "We love them and would be delighted to share those special moments with you.",
+    "To help us organise everything and make sure it all runs smoothly, please contact:"],
+    who:"Lorena", tel:"+34 6•• •• •• ••", mail:"lorena.•••••••@hotelbotanico.com"},
+  s15:{title:"Help us build the perfect playlist!", p:[
+    "We want the party to feel like a reflection of all of you too.",
+    "If there is a song that you love and would like to hear during the celebration, you can leave your suggestion here.",
+    "We will do our best to include your requests and create the perfect soundtrack for such a special day."],
+    f1:"Title:", f2:"Artist:", btn:"Add song", ok:"Prototype — nothing was saved."},
+  s16:{title:"FAQs", q:[
+    ["When should I RSVP?","Please confirm your attendance by June 24th, 2027, using the RSVP form on this website. After this date, we will assume that you are unable to join us, and we will confirm the final guest numbers with the hotel so they can prepare all the details for our wedding. We will send you a reminder one week before via WhatsApp."],
+    ["What happens if I can no longer attend after the RSVP deadline?","We understand that life can change and that unexpected situations can sometimes happen. If you have confirmed your attendance, we would truly appreciate it if you could keep your commitment to celebrate with us, as after the RSVP deadline we must confirm final numbers with the hotel and make the necessary arrangements. If something unavoidable comes up and you are no longer able to attend, please let us know as soon as possible so we can inform the hotel and make any necessary changes."],
+    ["What time should I arrive for the ceremony?","We recommend arriving with enough time to find your seat and enjoy the beginning of the ceremony without rushing. As a guide, please aim to arrive approximately 30 minutes before the ceremony starts. We will confirm the final timing with the hotel closer to the date."],
+    ["Do we need to travel to a church or another location?","No. The ceremony, reception, and celebration afterwards will all take place within the Hotel Botánico grounds, so there will be no need to travel to another location."],
+    ["Is parking available for guests?","The hotel does not have private parking available for wedding guests, but there are several parking areas with plenty of spaces nearby. As the wedding will take place on a Sunday, we do not expect parking to be an issue. However, we recommend arriving with enough time to find a space and arrive at the ceremony relaxed."],
+    ["Are children invited?","Of course! Children are more than welcome. We want this celebration to be a day for everyone, so it will be a completely family-friendly event. We have also arranged entertainment for the little ones, so they can have fun while parents can relax and enjoy the celebration."],
+    ["Will there be an open bar?","Yes. We have arranged two hours of open bar after the meal so you can enjoy a drink and continue celebrating with us. After this time, you can purchase your own drinks in the hall bar. Drinks from outside are not allowed in the venue."],
+    ["Can I bring a plus-one who is not included on my invitation?","We are very sorry, but we are unable to accommodate additional guests as we have had to carefully limit the number of attendees for our celebration. All invited guests are listed in the RSVP form on this website. Please only select the members of your group who will be attending and leave unselected anyone who is unable to join us."],
+    ["Can I take photos during the ceremony?","Of course! We would love for you to capture special moments from our day and share the celebration from your perspective. We have arranged a digital disposable camera through POV. You will find a QR code on your seat (one for each guest, placed on your plate) which you can scan to upload and share 10 special photos and videos of the day. We are happy for you to share photos from the wedding on social media — in fact, we would love to see the day through your eyes. We only ask that you please respect everyone's privacy and only share photos of people who you know are comfortable appearing online. We also kindly ask that you do not share photos of children unless you have permission from their parents, to help protect their privacy. Thank you so much for helping us create these special memories together!"],
+    ["Can I bring my own drinks or alcohol?","For organisational reasons and in accordance with the hotel's policies, bringing your own drinks or alcohol into the venue is not permitted. We invite you to enjoy the drinks options we have arranged with the hotel during the celebration."],
+    ["Do you provide transport to and from the wedding?","We won't be providing transport, but we're more than happy to help you organise it. If a group of you would like to travel together, we can help arrange shared taxis or larger vehicles where needed. If you're staying in Puerto de la Cruz, the hotel is only about 5 minutes by car from the town centre, so getting to and from the venue is quick and easy. Just let us know if you need any help — we'll be happy to assist."],
+    ["Can I choose between different menu options?","We have created a set menu for our celebration, so there will not be different main course options to choose from. The main course includes beef. If you do not eat beef, please choose the vegetarian option in the RSVP form. Children under 10 will automatically be given the children menu which includes chicken. Those aged 10 to 17 will be able to choose between the children's menu, the adult menu, or the vegetarian menu when completing their RSVP. If you have any allergies or intolerances, please select them using the checkbox in the RSVP. If you have any other dietary requirements, please let us know in the notes section."]]},
+  s17:{title:"RSVP", titleA:"", titleB:"RSVP",
+    q1:"Will you be joining us on our wedding day?",
+    a1y:"Yes, I wouldn't miss it!", a1n:"Sorry, I won't be able to make it.",
+    q2:"Who will be attending?", q2sub:"Select the people included in this invitation who will be joining us.",
+    all:"Select all",
+    menuTitle:"Menu Information",
+    veg:"Would you prefer a vegetarian menu?", yes:"Yes", no:"No",
+    allerg:"Do you have any allergies or dietary requirements?",
+    allergens:["Gluten-free / Coeliac disease","Lactose-free","Vegetarian","Vegan","Nut allergy","Shellfish allergy"],
+    other:"If you have any other allergies, intolerances or dietary requirements, please let us know here:",
+    otherPh:"e.g. egg allergy, fructose intolerance, etc.",
+    notes:"Additional comments (optional)", notesPh:"Anything else you'd like to tell us…",
+    submit:"Submit", ok:"Prototype — nothing was submitted. The real form saves to the database and emails a confirmation.",
+    guests:["Demo Adult A","Demo Adult B","Demo Teen (14)","Demo Child (8)"]},
+  foot:"Sabi & Tom · 24 October 2027 · Tenerife · prototype, not the live site"
+},
+es:{
+  chrome:{tag:"Prototipo · copia compartida · contactos y datos bancarios ocultos", notes:"Notas", lock:"Bloquear"},
+  gate:{title:"¡Tienes una invitación!", label:"Código de invitación", btn:"Abrir invitación",
+        hint:"Prototipo — sin backend. Cualquier código abre la web.",
+        err:"Por favor, introduce tu código de invitación."},
+  nav:{},
+  s02:{kicker:"¡Nos casamos!", names:"Sabi & Tom", scroll:"Formulario de asistencia al final de la página"},
+  s03:{pre:"Días que faltan para decir", quote:"“Sí quiero”",
+       u:["días","horas","minutos","segundos"]},
+  s04:{line:"¡Y comieron perdices!", ph:["Sabi — foto de infancia","Tom — foto de infancia"]},
+  s05:{ph:"Marco de TV retro · vídeo photobooth (05)",
+       date:"Domingo, 24 de octubre de 2027", time:"12:00",
+       v1:"Hotel Botánico & The Oriental Spa Garden", v2:"Puerto de la Cruz, Tenerife",
+       body:"Estamos muy felices de compartir este día tan especial con ustedes."},
+  s06:{title:"Unas palabras", p:[
+    "Después de ocho años viviendo aventuras y construyendo una vida juntos, ha llegado el momento de celebrar uno de los días más especiales de nuestra historia.",
+    "A lo largo de este camino hemos crecido, hemos creado mil recuerdos y hemos vivido la aventura más bonita de todas: formar nuestra familia con la llegada de Mateo.",
+    "Nos hace mucha ilusión poder celebrar este día, esperamos que inolvidable, con las personas a las que queremos y que forman parte de nuestra historia.",
+    "Gracias por haber estado junto a nosotros en este camino y por compartir este día tan especial."]},
+  s07:{title:"¿Vienen desde la Península?", p:[
+    "¡Nos hace muchísima ilusión que viajen para celebrar este día con nosotros!",
+    "Hemos preparado una pequeña guía de viaje con información útil para ayudarles a planificar su estancia en Tenerife, incluyendo cómo llegar, dónde alojarse, recomendaciones de transporte, lugares que visitar y algunos de nuestros sitios favoritos para comer."],
+    cta:"Pueden descargarla aquí:", btn:"Guía de viaje (PDF)"},
+  s08:{title:"¿Dónde?", p:[
+    "Nuestra boda tendrá lugar en los jardines del precioso Hotel Botánico & The Oriental Spa Garden, en Puerto de la Cruz, Tenerife.",
+    "Un lugar muy especial para nosotros, donde celebraremos este día tan importante rodeados de naturaleza, tranquilidad y belleza.",
+    "No podríamos haber imaginado un escenario mejor para nuestra boda, ni un equipo más increíble para ayudarnos a hacer realidad este día. Nos sentimos enormemente agradecidos de poder celebrarlo aquí y estamos deseando compartir este lugar único con ustedes."],
+    v1:"Hotel Botánico & The Oriental Spa Garden", v2:"Puerto de la Cruz, Tenerife",
+    ph:["Jardines del hotel (08)","Espacio de la ceremonia (08)"],
+    b1:"Abrir en Google Maps", b2:"Añadir al calendario"},
+  s09:{title:"Descansen y relájense", p:[
+    "Si quieren disfrutar de la experiencia completa y alojarse en el mismo lugar donde celebraremos nuestra boda, nuestros invitados disponen de una tarifa especial en el Hotel Botánico & The Oriental Spa Garden.",
+    "Además, si tienen pensado aprovechar al máximo la barra libre, les recomendamos alojarse en el hotel para que solo tengan que preocuparse de disfrutar de la celebración y no de cómo volver. Y, por supuesto, ¡nos encantará volver a verlos a todos en el desayuno de la mañana siguiente, relajarnos junto a la piscina… y ponernos al día con todos los cotilleos de la boda!"],
+    codeIntro:"Para acceder a esta tarifa especial, solo tienen que indicar el código de descuento", codeOutro:"al hacer la reserva. Toda la información del hotel también está disponible en la guía de viaje descargable.",
+    ratesTitle:"Tarifas", ratesSub:"Habitación Deluxe (Vista Teide o Vista Spa) — Octubre de 2027",
+    rates:[["Ocupación individual","193 €"],["Ocupación doble","228 €"]]},
+  s10:{title:"HORARIO DEL DÍA",
+    note:"(Por favor, lleguen al hotel a las 12:30 y con tiempo suficiente para aparcar y llegar con tranquilidad, para que todo transcurra sin contratiempos.)",
+    items:[
+      ["13:00 h","Ceremonia","Comenzaremos la celebración con la ceremonia en los jardines del hotel."],
+      ["14:00 h","Cóctel","Cóctel de bienvenida con aperitivos en los jardines."],
+      ["15:00 h","Comida","Banquete servido en el salón principal."],
+      ["19:00 h","Tarta","Corte de la tarta nupcial."],
+      ["20:00 h","Fiesta","Baile, barra libre durante dos horas y música para disfrutar de la noche."],
+      ["23:00 h","Despedida","Fin de la celebración."]]},
+  s11:{title:"MENÚ", p:[
+    "Hemos preparado una experiencia gastronómica muy especial para este día.",
+    "Comenzaremos con un cóctel de bienvenida y una selección de aperitivos servidos en los jardines del hotel.",
+    "Después disfrutaremos de un almuerzo sentado. El menú incluye una opción vegetariana y un menú especial para los más pequeños.",
+    "También cortaremos la tarta nupcial antes de que empiece el baile.",
+    "Y, como bailar siempre abre el apetito, durante la fiesta habrá una selección de bocados dulces y salados, además de dos horas de barra libre.",
+    "Les pedimos, por favor, que dejen los aperitivos salados vegetarianos para los invitados que no comen carne de vacuno o cerdo, para que todos tengan algo que disfrutar."]},
+  s12:{title:"Dress Code", p:[
+    "El código de vestimenta será <strong>formal de jardín</strong>.",
+    "Buscamos un estilo elegante y cuidado, pero que al mismo tiempo les permita sentirse cómodos y ser ustedes mismos.",
+    "Como la celebración tendrá lugar en los jardines del hotel, les recomendamos evitar los zapatos de tacón fino.",
+    "Y si finalmente eligen unos zapatos que resultan no ser tan cómodos como esperaban, el hotel dispone de una selección de calzado de diferentes tallas.",
+    "Tengan en cuenta que la boda será en octubre, por lo que les recomendamos traer un jersey fino, una rebeca o una chaqueta ligera por si refresca al final del día."],
+    ph:["Collage del moodboard — falta el asset (12)","Collage del moodboard — falta el asset (12)"]},
+  s13:{title:"Regalos", p:[
+    "Lo más importante para nosotros es poder compartir este día con vosotros y crear recuerdos juntos.",
+    "Si queréis tener un detalle con nosotros, hemos habilitado una opción de regalo mediante transferencia bancaria o bizum al número de móvil de Sabi para ayudarnos con nuestra luna de miel familiar con Mateo.",
+    "Muchas gracias por formar parte de nuestra historia y por acompañarnos en este momento tan especial."],
+    uk:"",
+    stamp:"Toca el sello", bankTitle:"Transferencia bancaria",
+    bank:["•••••• ••••••","ES•• •••• •••• •••• •••• ••••","Bizum: pendiente"],
+    masked:"Los datos bancarios reales están ocultos en este prototipo."},
+  s14:{title:"¿Les gustaría preparar una sorpresa?", p:[
+    "¿Tienen alguna idea especial para sorprendernos durante la celebración?",
+    "Nos encantan las sorpresas y nos haría muchísima ilusión compartir esos momentos tan especiales con ustedes.",
+    "Para ayudarnos a organizarlo todo y asegurarnos de que todo salga según lo previsto, por favor, pónganse en contacto con:"],
+    who:"Lorena", tel:"+34 6•• •• •• ••", mail:"lorena.•••••••@hotelbotanico.com"},
+  s15:{title:"¡Creemos la playlist perfecta!", p:[
+    "Queremos que la fiesta también refleje un poquito de cada uno de ustedes.",
+    "Si hay alguna canción que les guste y quieren escuchar durante la celebración, pueden dejar su propuesta aquí.",
+    "Haremos todo lo posible por incluirlas y crear la banda sonora perfecta para un día tan especial."],
+    f1:"Título:", f2:"Artista:", btn:"Añadir canción", ok:"Prototipo — no se ha guardado nada."},
+  s16:{title:"Preguntas frecuentes", q:[
+    ["¿Cuándo debo contestar la invitación?","Te pedimos que confirmes tu asistencia antes del 24 de junio de 2027 a través del formulario de confirmación de esta web. Después de esa fecha, entenderemos que no podrás acompañarnos y enviaremos el número final de invitados al hotel para poder organizar todos los detalles de la boda. Te enviaremos un recordatorio una semana antes a través de WhatsApp para que no se te olvide."],
+    ["¿Qué pasa si después de la fecha límite ya no puedo asistir?","Sabemos que la vida puede cambiar y que a veces pueden surgir imprevistos fuera de nuestro control. Si has confirmado tu asistencia, te agradeceríamos mucho que intentaras mantener tu compromiso de acompañarnos ese día, ya que después de la fecha límite debemos confirmar el número final de invitados con el hotel y realizar los pagos correspondientes. Si finalmente ocurre algo que te impida venir, por favor avísanos lo antes posible para poder comunicarlo al hotel y hacer los cambios necesarios."],
+    ["¿A qué hora debo llegar a la ceremonia?","Te recomendamos llegar con tiempo suficiente para poder encontrar tu sitio y disfrutar del comienzo de la ceremonia sin prisas. Como referencia, intenta llegar aproximadamente 30 minutos antes de la hora de inicio. Confirmaremos este horario más adelante con el hotel."],
+    ["¿Tenemos que desplazarnos a la iglesia o a otro lugar después de la ceremonia?","No. La ceremonia, el banquete y la celebración posterior tendrán lugar en el propio recinto del Hotel Botánico, por lo que no será necesario desplazarse a ningún otro sitio."],
+    ["¿Hay aparcamiento disponible para los invitados?","El hotel no dispone de aparcamiento propio para invitados, pero hay varias zonas de parking con muchas plazas disponibles en los alrededores. Al ser domingo, no esperamos que haya problemas para encontrar sitio, pero te recomendamos llegar con tiempo suficiente para poder aparcar con tranquilidad antes de la ceremonia."],
+    ["¿Los niños están invitados?","¡Por supuesto! Los niños son más que bienvenidos. Queremos que esta celebración sea una fiesta para todos, por eso será un evento totalmente adaptado para familias. Además, hemos contratado entretenimiento infantil para que los más pequeños puedan divertirse y los padres puedan relajarse un poco también."],
+    ["¿Habrá barra libre?","Sí. Hemos contratado dos horas de barra libre para que podáis disfrutar de una copa después de la comida y seguir celebrando con nosotros. Después de ese tiempo, podéis comprar vuestras bebidas en el bar del hall. No se pueden traer bebidas del exterior."],
+    ["¿Puedo llevar un acompañante que no aparece en mi invitación?","Sentimos mucho no poder ofrecer invitados adicionales, pero hemos tenido que limitar el número de asistentes para poder organizar la celebración. Todas las personas invitadas aparecen en el formulario de confirmación de esta web. Por favor, selecciona únicamente las personas de tu grupo que asistirán y no marques aquellas que finalmente no puedan venir."],
+    ["¿Puedo sacar fotos durante la ceremonia?","¡Por supuesto! Nos encantará que capturéis momentos especiales de este día y que podáis compartir la celebración desde vuestra perspectiva. Hemos creado una cámara desechable digital con POV. Encontraréis un código QR en vuestro asiento (uno para cada invitado sobre el plato) que podréis escanear para subir y compartir 10 fotos y vídeos de momentos especiales del día. No nos importa que compartáis fotos de la boda en vuestras redes sociales; al contrario, nos hará mucha ilusión ver cómo vivisteis este día. Solo os pedimos que tengáis en cuenta la privacidad de los demás invitados y que compartáis imágenes únicamente de personas que sepáis que están cómodas apareciendo en redes sociales. Os pedimos también, por favor, que no compartáis fotografías de menores salvo que tengáis el consentimiento de sus padres, para proteger su privacidad. ¡Muchas gracias por ayudarnos a crear este recuerdo tan especial juntos!"],
+    ["¿Puedo traer bebidas o alcohol de fuera?","Por motivos de organización y de acuerdo con las normas del hotel, no está permitido traer bebidas o alcohol de fuera del recinto. Os invitamos a disfrutar de las opciones de bebida que ha preparado el hotel durante la celebración."],
+    ["¿Habrá transporte para ir y volver de la boda?","No organizaremos transporte, pero estaremos encantados de ayudaros a organizarlo. Si sois un grupo y queréis compartir taxi o necesitáis un vehículo más grande, podemos ayudaros a gestionarlo. Si os alojáis en Puerto de la Cruz, el hotel está a solo 5 minutos en coche del centro, por lo que llegar y volver es muy sencillo. Si necesitáis cualquier ayuda para organizar el transporte, ¡solo tenéis que decírnoslo!"],
+    ["¿Puedo elegir entre diferentes opciones de menú?","El hotel ha preparado un único menú para la celebración, por lo que no habrá diferentes opciones para elegir. El plato principal del menú adulto incluye carne de ternera. Si no consumes carne de ternera, por favor, elige la opción vegetariana en el formulario de confirmación. Los niños menores de 10 años tendrán asignado automáticamente el menú infantil, que incluye pollo. Los invitados de entre 10 y 17 años podrán elegir entre el menú infantil, el menú de adulto o el menú vegetariano al completar el formulario de confirmación. Si tienes alguna alergia o intolerancia, selecciónala utilizando la casilla correspondiente en el formulario de confirmación. Si tienes cualquier otro requisito dietético, por favor indícalo en el apartado de notas."]]},
+  s17:{title:"Confirma tu asistencia", titleA:"Confirma tu", titleB:"asistencia",
+    q1:"¿Podréis acompañarnos en nuestra boda?",
+    a1y:"¡Sí, no nos lo perderíamos!", a1n:"Lo siento, no podremos asistir.",
+    q2:"¿Quiénes asistirán?", q2sub:"Selecciona las personas de esta invitación que podrán acompañarnos.",
+    all:"Seleccionar a todos",
+    menuTitle:"Información sobre el menú",
+    veg:"¿Prefieres menú vegetariano?", yes:"Sí", no:"No",
+    allerg:"¿Tienes alguna alergia o requisito dietético?",
+    allergens:["Sin gluten / Celiaquía","Sin lactosa","Vegetariano","Vegano","Alergia a frutos secos","Alergia a marisco"],
+    other:"Si tienes cualquier otra alergia, intolerancia o necesidad alimentaria, indícanosla aquí:",
+    otherPh:"Ej. alergia al huevo, intolerancia a la fructosa, etc.",
+    notes:"Comentarios adicionales (opcional)", notesPh:"Escríbenos unas palabras…",
+    submit:"Enviar", ok:"Prototipo — no se ha enviado nada. El formulario real guarda en la base de datos y envía un email de confirmación.",
+    guests:["Demo Adult A","Demo Adult B","Demo Teen (14)","Demo Child (8)"]},
+  foot:"Sabi & Tom · 24 de octubre de 2027 · Tenerife · prototipo, no es la web final"
+}
+};
+
+/* Open questions surfaced by the copy extraction. Toggle with "Notes". */
+const NOTES = {
+ s01:{en:"Doc 01 still shows <em>User</em> + <em>Password</em>. The locked decision is a single invitation-code field, so that is what is built here — the doc needs updating to match."},
+ s03:{en:"Countdown runs to 24 Oct 2027 13:00 Atlantic/Canary (ceremony). Confirm it should count to the ceremony and not to the 12:30 arrival."},
+ s05:{en:"This section says <strong>12:00</strong>, but the timeline says arrive 12:30 and ceremony 13:00. One of the two is wrong."},
+ s07:{en:"Heading is UK-specific in EN and Península-specific in ES — these are different audiences, not translations of each other. Intentional?"},
+ s09:{en:"The Spanish doc opens with a stray drafting line (\"Perfecto, entonces queda aún más directo:\") — removed here, must not be published."},
+ s10:{en:"Send-off reads 23:00 here. The planning notes have it at 22:00. Party starts 20:00 with two hours of open bar, which fits 22:00. Needs a decision."},
+ s12:{en:"An older draft says \"Elegant Casual\". Garden Formal is the newer, locked wording and is what is shown."},
+ s13:{en:"Account details are <strong>masked</strong> in this prototype — it has no real login. In the doc they sit behind the invitation gate; confirm that is intended. Sabi's Bizum number is still missing."},
+ s16:{en:"Source numbering was broken in both languages (EN jumped 10 → 12 → 11) — renumbered. Both docs also opened with a leftover drafting line, removed."},
+ s16b:{en:"FAQ 12 promises 10–17 year-olds a choice of children's / adult / vegetarian menu. The RSVP form below only offers vegetarian yes-no. One of them has to change — this is the biggest open conflict."},
+ s17:{en:"Built exactly as written in the doc, so the age-band mismatch above is visible. Guest names are invented demo data; the real list comes from the invitation code."},
+ lang:{en:"Spanish is shown verbatim as extracted. Sections use <em>ustedes</em>; the FAQs and Gifts use <em>tú/vosotros</em>. You locked vosotros/tú — the rewrite is M0 work and is deliberately not done here."}
+};
+
+const TLICONS = ['tl-ceremony','tl-cocktail','tl-meal','tl-cake','tl-party','tl-angel'];
+const MENUILL  = [null,'menu-cocktail','menu-mainmeal','menu-cake','menu-nightsnacks','menu-appetizers'];
+const KEY = 'sabitom.code';
+let MEMCODE = null;
+function saveCode(v){ try{ localStorage.setItem(KEY,v); }catch(e){ MEMCODE=v; } }
+function readCode(){ try{ return localStorage.getItem(KEY); }catch(e){ return MEMCODE; } }
+function clearCode(){ try{ localStorage.removeItem(KEY); }catch(e){ MEMCODE=null; } }
+const TARGET = new Date('2027-10-24T13:00:00+01:00'); // Atlantic/Canary, still WEST on 24 Oct
+let LANG = 'en';
+
+const A='assets/';
+const img=(n,cls,alt)=>`<img src="${A}${n}.webp" class="${cls||''}" alt="${alt||''}" loading="lazy" decoding="async">`;
+const star=(n,css,cls)=>`<img src="${A}${n}.webp" class="deco star ${cls||''}" style="${css}" alt="" loading="lazy">`;
+const esc = s => String(s);
+const note = k => `<div class="note"><b>Open question</b>${NOTES[k].en}</div>`;
+const paras = a => a.map(p=>`<p>${p}</p>`).join('');
+const phs = a => `<div class="ph-row">${a.map(x=>`<div class="ph">${x}</div>`).join('')}</div>`;
+
+function sec(n,id,inner){
+  return `<section id="${id}"><span class="snum">${String(n).padStart(2,'0')}</span>${inner}</section>`;
+}
+
+function render(){
+  const t = COPY[LANG];
+  document.documentElement.lang = LANG;
+
+  // chrome
+  document.getElementById('chromeTag').textContent = t.chrome.tag;
+  document.getElementById('notesBtn').textContent = t.chrome.notes;
+  document.getElementById('lockBtn').textContent = t.chrome.lock;
+  document.getElementById('gateTitle').textContent = t.gate.title;
+  document.getElementById('gateLabel').textContent = t.gate.label;
+  document.getElementById('gateBtn').textContent = t.gate.btn;
+  document.getElementById('gateHint').textContent = t.gate.hint;
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-current', b.dataset.lang===LANG ? 'true':'false'));
+
+  let h = '';
+
+  // 02 header
+  h += sec(2,'s02',`
+    <div class="hbg" style="background-image:url(${A}bg-budha.webp)"></div>
+    ${star('star-orange','left:5%;top:16%;z-index:2')}
+    ${star('star-pink','right:7%;top:24%;z-index:2','s')}
+    ${star('star-brown','left:9%;bottom:20%;z-index:2','s')}
+    ${star('star-orange','right:5%;bottom:26%;z-index:2','l')}
+    <div class="kicker">${t.s02.kicker}</div>
+    <div class="names">${t.s02.names}</div>
+    <div class="scroll">${t.s02.scroll}</div>
+    ${img('bar-stars','barstars')}
+    ${note('s01')}`);
+
+  // 03 countdown
+  h += sec(3,'s03',`
+    <div class="cdband">
+      <div class="cbg" style="background-image:url(${A}bg-teide.webp)"></div>
+      <div class="cd-pre">${t.s03.pre}</div>
+      <div class="cd-quote">${t.s03.quote}</div>
+      <div class="cd-grid" id="cd">${t.s03.u.map(u=>`<div class="cd-cell"><b>–</b><span>${u}</span></div>`).join('')}</div>
+    </div>
+    ${note('s03')}`);
+
+  // 04 cute intro
+  h += sec(4,'s04',`
+    ${star('star-green','left:2%;top:22%','s')}
+    ${star('star-orange','right:3%;top:34%','s')}
+    <h2 class="t-script" style="text-align:center">${t.s04.line}</h2>
+    ${img('ill-brideandgroom','ill','Bride and groom illustration')}
+    <div style="text-align:center">${img('star-cluster','','')}</div>`);
+
+  // 05 date & place
+  h += sec(5,'s05',`
+    <div class="tvwrap">
+      ${img('frame-tv','tvov','Retro TV frame')}
+      <div class="tvscreen">${t.s05.ph}</div>
+    </div>
+    <div style="text-align:center;margin:-6px 0 18px">${img('icon-mateogeorge','','Mateo and George')}</div>
+    <p class="t-script2" style="font-size:30px;color:var(--green);margin-bottom:4px">${t.s05.date}</p>
+    <p class="t-script2" style="font-size:26px;color:var(--gold);margin-bottom:14px">${t.s05.time}</p>
+    <p>${t.s05.v1}<br>${t.s05.v2}</p>
+    <p>${t.s05.body}</p>
+    ${note('s05')}`);
+
+  // 06 a few words
+  h += sec(6,'s06',`<h2 class="t-script">${t.s06.title}</h2>
+    <div class="framed">
+      ${img('photo-family','fimg','Tom, Sabi and Mateo')}
+      ${img('frame-pink','fov','')}
+    </div>
+    ${paras(t.s06.p)}
+    <div class="iconrow">${img('icon-flower')}${img('icon-duck')}${img('icon-chicken')}</div>`);
+
+  // 07 travelling
+  h += sec(7,'s07',`
+    <h2 class="t-script2">${t.s07.title}</h2>
+    ${paras(t.s07.p)}
+    <p class="t-script2" style="font-size:24px;color:var(--green)">${t.s07.cta}</p>
+    <div class="btn-row" style="align-items:center">
+      <a class="btn" href="#" onclick="return false">${t.s07.btn}</a>
+      ${img('icon-clickbox','','')}
+    </div>
+    ${star('icon-plane','right:4%;top:14%','l')}
+    ${note('s07')}`);
+
+  // 08 where
+  h += sec(8,'s08',`
+    <h2 class="t-script2">${t.s08.title}</h2>
+    ${paras(t.s08.p)}
+    <div class="gallery">
+      ${img('photo-budhagarden','','Buddha garden')}
+      ${img('photo-bridge','','Garden bridge')}
+      ${img('photo-hotelcenter','','Hotel')}
+      ${img('photo-dinnertable','','Dinner table')}
+      ${img('photo-dinnercenter','','Table centrepiece')}
+    </div>
+    ${star('icon-palmleft','left:-2%;top:8%','l')}
+    ${star('icon-palmright','right:-2%;bottom:14%','l')}
+    <div class="card"><strong>${t.s08.v1}</strong><br>${t.s08.v2}
+      <div class="btn-row">
+        <a class="btn" href="https://maps.google.com/" target="_blank" rel="noopener">${t.s08.b1}</a>
+        <a class="btn" href="#" onclick="return false">${img('icon-gcal','bico')}${t.s08.b2}</a>
+      </div>
+      <div class="iconrow" style="justify-content:flex-start;gap:14px;margin:14px 0 0">
+        ${img('icon-gcal')}${img('icon-ical')}${img('icon-outlook')}
+      </div>
+    </div>`);
+
+  // 09 hotel
+  h += sec(9,'s09',`
+    <h2 class="t-script">${t.s09.title}</h2>
+    ${paras(t.s09.p)}
+    <p>${t.s09.codeIntro} <span class="code-chip">••••••••••</span> ${t.s09.codeOutro}</p>
+    <div class="card">
+      <h3 class="t-script" style="margin:0 0 4px;font-weight:400;font-size:26px;color:var(--green)">${t.s09.ratesTitle}</h3>
+      <p class="quiet" style="margin:0 0 6px;font-size:13px">${t.s09.ratesSub}</p>
+      <ul class="rates">${t.s09.rates.map(r=>`<li><span>${r[0]}</span><strong>${r[1]}</strong></li>`).join('')}</ul>
+    </div>
+    <div class="iconrow">${img('icon-building')}${img('icon-coffee')}${img('icon-sunbed')}${img('icon-mapheart')}</div>
+    ${note('s09')}`);
+
+  // 10 timeline
+  h += sec(10,'s10',`
+    <h2 class="t-display">${t.s10.title}</h2>
+    <p class="quiet" style="font-size:13px">${t.s10.note}</p>
+    <ul class="tl">${t.s10.items.map((i,ix)=>`<li><div class="time">${i[0]}</div>${img(TLICONS[ix],'tlicon')}<div><div class="name">${i[1]}</div><p class="desc">${i[2]}</p></div></li>`).join('')}</ul>
+    ${star('star-pink','right:2%;top:10%','s')}
+    ${star('star-green','left:1%;bottom:12%','s')}
+    ${note('s10')}`);
+
+  // 11 menu
+  h += sec(11,'s11',`<h2 class="t-poster">${t.s11.title}</h2>
+    ${t.s11.p.map((p,i)=>MENUILL[i]
+       ? `<div class="menurow">${img(MENUILL[i],'','')}<p>${p}</p></div>`
+       : `<p>${p}</p>`).join('')}
+    ${star('star-blue','right:3%;top:8%','s')}`);
+
+  // 12 dress code
+  h += sec(12,'s12',`<h2 class="t-script">${t.s12.title}</h2>
+    ${img('ill-dresscode','ill','Dress code illustration')}
+    ${paras(t.s12.p)}
+    <div class="iconrow">${img('icon-branch')}${img('icon-heart')}${img('icon-leaves')}</div>
+    ${note('s12')}`);
+
+  // 13 gifts
+  h += sec(13,'s13',`
+    <h2 class="t-script">${t.s13.title}</h2>
+    ${paras(t.s13.p)}
+    ${t.s13.uk?`<p>${img('icon-ukflag','bico')}${t.s13.uk}</p>`:''}
+    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+      <img class="stampimg" id="stamp" src="${A}${LANG==='es'?'stamp-es':'stamp-en'}.webp" alt="${t.s13.stamp}">
+      <div class="bank" id="bank">
+        <strong>${t.s13.bankTitle}</strong>
+        <p style="margin:6px 0 0">${t.s13.bank.join('<br>')}</p>
+        <p class="quiet" style="font-size:12px;margin-top:8px">${t.s13.masked}</p>
+      </div>
+    </div>
+    <div class="iconrow">${img('icon-heartleaves')}</div>
+    ${note('s13')}`);
+
+  // 14 surprises
+  h += sec(14,'s14',`
+    <h2 class="t-script">${t.s14.title}</h2>
+    ${paras(t.s14.p)}
+    <div class="polaroids">${img('ill-polaroid','','')}${img('ill-note','','')}</div>
+    <div class="card"><strong>${t.s14.who}</strong>
+      <div class="contactline">${img('icon-phone')}<span>${t.s14.tel}</span></div>
+      <div class="contactline">${img('icon-email')}<a href="mailto:${t.s14.mail}">${t.s14.mail}</a></div>
+    </div>`);
+
+  // 15 music
+  h += sec(15,'s15',`
+    <h2 class="t-script">${t.s15.title}</h2>
+    ${paras(t.s15.p)}
+    ${img('ill-cdgirl','ill','')}
+    <div class="iconrow">${img('icon-note')}${img('icon-redheart')}</div>
+    <div class="field"><label for="songT">${t.s15.f1}</label><input id="songT" type="text"></div>
+    <div class="field"><label for="songA">${t.s15.f2}</label><input id="songA" type="text"></div>
+    <button class="btn solid" id="songBtn" type="button">${t.s15.btn}</button>
+    <div class="sent" id="songOk">${t.s15.ok}</div>`);
+
+  // 16 faq
+  h += sec(16,'s16',`
+    ${img('frame-faqs','faqdeco','')}
+    <h2 class="t-script">${t.s16.title}</h2>
+    ${note('s16')}
+    <div class="faq">${t.s16.q.map((q,i)=>`<details><summary>${i+1}. ${q[0]}</summary><div class="ans">${q[1]}</div></details>`).join('')}</div>
+    ${note('s16b')}`);
+
+  // 17 rsvp
+  const g = t.s17.guests;
+  h += sec(17,'s17',`
+    <h2 style="margin-bottom:8px">${LANG==='es'
+      ? `<span class="t-poster" style="font-size:38px;color:var(--gold)">${t.s17.titleA}</span> <span class="t-script" style="font-size:44px;color:var(--green)">${t.s17.titleB}</span>`
+      : `<span class="t-script" style="font-size:46px;color:var(--green)">${t.s17.titleB}</span>`}</h2>
+    ${note('s17')}
+    <form id="rsvp" onsubmit="return false">
+      <div class="field">
+        <span class="qlabel">${t.s17.q1} <span class="req">*</span></span>
+        <label class="opt"><input type="radio" name="going" value="y" checked>${t.s17.a1y}</label>
+        <label class="opt"><input type="radio" name="going" value="n">${t.s17.a1n}</label>
+      </div>
+      <div class="field" id="whoBlock">
+        <span class="qlabel">${t.s17.q2}</span>
+        <p class="quiet" style="font-size:13px;margin:-4px 0 6px">${t.s17.q2sub}</p>
+        <div class="chips">
+          ${g.map((n,i)=>`<label class="opt"><input type="checkbox" class="who" data-i="${i}" checked>${n}</label>`).join('')}
+        </div>
+        <label class="opt" style="margin-top:4px"><input type="checkbox" id="all" checked>${t.s17.all}</label>
+      </div>
+      <div id="menuBlock">
+        <span class="qlabel" style="margin-bottom:12px">${t.s17.menuTitle}</span>
+        ${g.map((n,i)=>`
+          <div class="guest-block" data-g="${i}">
+            <h4>${n}</h4>
+            <div class="field">
+              <span class="qlabel">${t.s17.veg} <span class="req">*</span></span>
+              <label class="opt"><input type="radio" name="veg${i}" value="y">${t.s17.yes}</label>
+              <label class="opt"><input type="radio" name="veg${i}" value="n" checked>${t.s17.no}</label>
+            </div>
+            <div class="field">
+              <span class="qlabel">${t.s17.allerg}</span>
+              <div class="chips">${t.s17.allergens.map(a=>`<label class="opt"><input type="checkbox">${a}</label>`).join('')}</div>
+            </div>
+            <div class="field">
+              <label for="oth${i}">${t.s17.other}</label>
+              <textarea id="oth${i}" placeholder="${t.s17.otherPh}"></textarea>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="field">
+        <label for="rnotes">${t.s17.notes}</label>
+        <textarea id="rnotes" placeholder="${t.s17.notesPh}"></textarea>
+      </div>
+      <div class="waxrow">
+        <button class="btn solid" id="rsvpBtn" type="button" style="font-family:var(--f-script);font-size:22px;letter-spacing:0;text-transform:none;padding:8px 30px">${t.s17.submit}</button>
+        ${img('ill-waxstamp','','')}
+      </div>
+      <div class="iconrow" style="justify-content:flex-start">${img('icon-clock')}${img('icon-whatsapp')}${img('icon-bell')}</div>
+      <div class="sent" id="rsvpOk">${t.s17.ok}</div>
+    </form>
+    ${note('lang')}`);
+
+  document.getElementById('site').innerHTML = h;
+  document.getElementById('foot').textContent = t.foot;
+  wire();
+  tick();
+}
+
+function wire(){
+  const stamp = document.getElementById('stamp');
+  if(stamp) stamp.onclick = () => document.getElementById('bank').classList.toggle('open');
+
+  const songBtn = document.getElementById('songBtn');
+  if(songBtn) songBtn.onclick = () => document.getElementById('songOk').classList.add('show');
+
+  const rsvpBtn = document.getElementById('rsvpBtn');
+  if(rsvpBtn) rsvpBtn.onclick = () => document.getElementById('rsvpOk').classList.add('show');
+
+  const all = document.getElementById('all');
+  const who = [...document.querySelectorAll('.who')];
+  const syncGuests = () => {
+    who.forEach(c=>{
+      const b = document.querySelector(`.guest-block[data-g="${c.dataset.i}"]`);
+      if(b) b.hidden = !c.checked;
+    });
+  };
+  if(all){
+    all.onchange = () => { who.forEach(c=>c.checked = all.checked); syncGuests(); };
+    who.forEach(c=>c.onchange = () => { all.checked = who.every(x=>x.checked); syncGuests(); });
+  }
+  // attending yes/no hides the rest
+  document.querySelectorAll('input[name=going]').forEach(r=>{
+    r.onchange = () => {
+      const going = document.querySelector('input[name=going]:checked').value === 'y';
+      document.getElementById('menuBlock').style.display = going ? '' : 'none';
+    };
+  });
+  syncGuests();
+}
+
+function tick(){
+  const cd = document.getElementById('cd');
+  if(!cd) return;
+  const diff = Math.max(0, TARGET - new Date());
+  const s = Math.floor(diff/1000);
+  const v = [Math.floor(s/86400), Math.floor(s%86400/3600), Math.floor(s%3600/60), s%60];
+  cd.querySelectorAll('.cd-cell b').forEach((b,i)=> b.textContent = v[i]);
+}
+setInterval(tick, 1000);
+
+/* gate + chrome */
+document.getElementById('gateForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const v = document.getElementById('code').value.trim();
+  if(!v){ document.getElementById('gateErr').textContent = COPY[LANG].gate.err; return; }
+  saveCode(v);
+  unlock();
+});
+function unlock(){
+  document.getElementById('gate').classList.add('gone');
+  document.body.classList.remove('locked');
+  document.getElementById('chrome').hidden = false;
+  document.getElementById('site').hidden = false;
+  document.getElementById('foot').hidden = false;
+}
+function lock(){
+  clearCode();
+  document.getElementById('gate').classList.remove('gone');
+  document.body.classList.add('locked');
+  document.getElementById('chrome').hidden = true;
+  document.getElementById('site').hidden = true;
+  document.getElementById('foot').hidden = true;
+  document.getElementById('code').value = '';
+  document.getElementById('gateErr').textContent = '';
+  window.scrollTo(0,0);
+}
+document.getElementById('lockBtn').onclick = lock;
+document.getElementById('notesBtn').onclick = e => {
+  const on = document.body.classList.toggle('notes');
+  e.currentTarget.setAttribute('aria-pressed', on ? 'true':'false');
+};
+document.addEventListener('click', e=>{
+  const b = e.target.closest('.lang button');
+  if(!b) return;
+  LANG = b.dataset.lang;
+  render();
+});
+
+render();
+// remembered code re-opens the site until Lock is pressed
+(function(){
+  const saved = readCode();
+  if(saved){
+    document.getElementById('code').value = saved;
+    const g = document.getElementById('gate');
+    g.style.transition = 'none';
+    unlock();
+    requestAnimationFrame(()=>{ g.style.transition = ''; });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Stage 1 — timeline rebuilt to the mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Norican&family=Anton&family=DM+Mono:wght@400;500&family=Caveat+Brush&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#f87602;      /* stripe orange, sampled from 10.timeline.png */
+  --orange-ink:#eb6c18;  /* heading orange */
+  --yellow:#fdc82a;      /* stripe yellow */
+  --cream:#f6e7d8;       /* panel */
+  --green-ink:#28432d;   /* times */
+  --pink:#f2a7a4;        /* wave outline */
+  --f-script:'Norican',cursive;
+  --f-display:'Anton',sans-serif;
+  --f-body:'DM Mono',monospace;
+  --f-poster:'Caveat Brush',cursive;
+  --f-ui:'Anonymous Pro',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#efe7d8;font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+
+/* prototype chrome only */
+#bar{
+  position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;
+  padding:9px 14px;background:#fffdf8;border-bottom:1px solid rgba(0,0,0,.12);
+  font-family:var(--f-ui);font-size:12px;
+}
+#bar .tag{margin-right:auto;letter-spacing:.14em;text-transform:uppercase;font-size:10px;color:#6b7a70}
+.lang{display:inline-flex;border:1px solid rgba(0,0,0,.2);border-radius:999px;overflow:hidden}
+.lang button{font-family:var(--f-ui);font-size:12px;border:0;background:transparent;padding:5px 12px;cursor:pointer;color:#4d6154}
+.lang button[aria-current="true"]{background:var(--orange);color:#fff}
+.side{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:start}
+.side > div{min-width:0}
+.side .mockimg{width:100%;display:block}   /* only the mockup scales — NOT every img in the column */
+.cap{font-family:var(--f-ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+     padding:8px 12px;color:#6b7a70;background:#fffdf8;border-bottom:1px solid rgba(0,0,0,.08)}
+
+/* ---------- the rebuilt section ---------- */
+.tl-section{
+  position:relative;padding:38px 74px 46px;overflow:hidden;
+  background:repeating-linear-gradient(90deg,
+    var(--orange) 0 4.1666%, var(--yellow) 4.1666% 8.3333%);
+}
+.tl-panel{
+  position:relative;max-width:720px;margin:0 auto;
+  padding:86px 54px 96px;
+}
+/* The wavy edge is drawn, not stretched: a bitmap frame squashed to a
+   different aspect ratio is what made the curves sharp and uneven. */
+.tl-wave{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;overflow:visible}
+.tl-panel > *:not(.tl-wave){position:relative;z-index:1}
+@media(max-width:640px){ .tl-panel{padding:62px 34px 68px} .tl-section{padding:22px 10px 28px} }
+
+.tl-head{margin:0 0 4px}
+/* The heading sits on an arc, as in the mockup. CSS cannot curve text, so
+   this is real SVG text on a path — still selectable, still translatable. */
+.tl-headsvg{display:block;width:100%;height:auto;max-width:620px;margin:0 auto;overflow:visible}
+.tl-headsvg text{
+  font-family:var(--f-display);fill:var(--orange-ink);
+  font-size:104px;letter-spacing:.5px;
+}
+.tl-note{
+  font-family:var(--f-body);color:var(--green-ink);text-align:center;
+  font-size:14px;line-height:1.6;max-width:430px;margin:0 auto 34px;
+}
+.tl-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px 22px}
+@media(max-width:560px){.tl-grid{grid-template-columns:1fr;gap:26px}}
+.tl-item{text-align:center}
+.tl-item img{height:96px;width:auto;display:block;margin:0 auto 10px}
+.tl-time{font-family:var(--f-poster);font-size:30px;color:var(--green-ink);line-height:1}
+.tl-name{font-family:var(--f-script);font-size:27px;color:var(--orange-ink);line-height:1.15;margin-top:2px}
+.tl-desc{font-family:var(--f-body);font-size:12.5px;color:#4a6150;line-height:1.55;margin:6px auto 0;max-width:230px}
+
+.tl-star{position:absolute;pointer-events:none;z-index:3}
+.tl-star.a{height:52px;left:2.5%;top:12%}
+.tl-star.b{height:40px;right:3%;top:8%}
+.tl-star.c{height:38px;left:3%;bottom:14%}
+.tl-star.d{height:56px;right:2.5%;bottom:9%}
+@media(max-width:640px){.tl-star{display:none}}
+
+.hint{font-family:var(--f-ui);font-size:11px;color:#6b7a70;padding:14px 18px;line-height:1.7;background:#fffdf8;border-top:1px solid rgba(0,0,0,.1)}
+.hint b{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:10px;margin-bottom:4px;color:#b4472e}
+</style>
+</head>
+<body>
+
+<div id="bar">
+  <span class="tag">Stage 1 · timeline rebuilt to the Canva mockup</span>
+  <span class="lang">
+    <button data-lang="en" aria-current="true">EN</button>
+    <button data-lang="es" aria-current="false">ES</button>
+  </span>
+</div>
+
+<div class="side">
+  <div>
+    <div class="cap">Your mockup</div>
+    <img class="mockimg" src="assets/mockup-timeline.webp" alt="Canva mockup of the timeline">
+  </div>
+  <div>
+    <div class="cap">Rebuilt in HTML</div>
+    <div id="live"></div>
+  </div>
+</div>
+
+<div class="hint">
+  <b>Known gaps in this stage</b>
+  The mockup's heading sits on a gentle arc — CSS can't curve text without SVG, so it's straight here; say if the arc matters and I'll do it as inline SVG.
+  Times are set in <strong>Caveat Brush</strong>, the Google substitute from your font doc — the mockup uses a bold sans, so this is the substitution you still need to sign off.
+  Send-off shows 22:00 here, taken from the mockup, not the 23:00 in SITE-COPY.md.
+</div>
+
+<script>
+const COPY={
+ en:{head:'TIMELINE',
+     note:'Please arrive at 12:30 to the hotel and come with plenty of time to park and get to the hotel so everything runs smoothly.',
+     items:[['13:00','Ceremony','We will begin the celebration with the ceremony in the hotel gardens.','tl-ceremony'],
+            ['14:00','Cocktail Reception','Welcome drinks and canapés in the gardens.','tl-cocktail'],
+            ['15:00','Wedding Breakfast','A seated wedding meal will be served in the main dining room.','tl-meal'],
+            ['19:00','Cake Cutting','Cake cutting.','tl-cake'],
+            ['20:00','Party','Dancing, two hours of open bar, and music to enjoy the evening.','tl-party'],
+            ['22:00','Send Off','End of the celebration.','tl-angel']]},
+ es:{head:'HORARIO',
+     note:'Por favor, lleguen al hotel a las 12:30 y con tiempo suficiente para aparcar y llegar con tranquilidad, para que todo transcurra sin contratiempos.',
+     items:[['13:00 h','Ceremonia','Comenzaremos la celebración con la ceremonia en los jardines del hotel.','tl-ceremony'],
+            ['14:00 h','Cóctel','Cóctel de bienvenida con aperitivos en los jardines.','tl-cocktail'],
+            ['15:00 h','Comida','Banquete servido en el salón principal.','tl-meal'],
+            ['19:00 h','Tarta','Corte de la tarta nupcial.','tl-cake'],
+            ['20:00 h','Fiesta','Baile, barra libre durante dos horas y música para disfrutar de la noche.','tl-party'],
+            ['22:00 h','Despedida','Fin de la celebración.','tl-angel']]}
+};
+/* ---- wavy panel edge -------------------------------------------------
+   Samples a rounded rectangle by arc length, pushes each sample out along
+   its normal by a sine, then smooths the samples with Catmull-Rom curves.
+   Wavelength is fixed in pixels and the wave count is rounded to a whole
+   number, so bumps stay the same size and the sine closes without a kink
+   no matter how tall or wide the panel gets.                            */
+const WAVE = { len: 190, amp: 17, radius: 54, step: 7 };
+
+function roundedRectSampler(w, h, r){
+  r = Math.min(r, w/2, h/2);
+  const segs = [];
+  const line = (x1,y1,x2,y2) => ({kind:'l', x1,y1,x2,y2, len: Math.hypot(x2-x1, y2-y1)});
+  const arc  = (cx,cy,a0,a1) => ({kind:'a', cx,cy,a0,a1, len: Math.abs(a1-a0)*r});
+  segs.push(line(r, 0, w-r, 0));
+  segs.push(arc(w-r, r, -Math.PI/2, 0));
+  segs.push(line(w, r, w, h-r));
+  segs.push(arc(w-r, h-r, 0, Math.PI/2));
+  segs.push(line(w-r, h, r, h));
+  segs.push(arc(r, h-r, Math.PI/2, Math.PI));
+  segs.push(line(0, h-r, 0, r));
+  segs.push(arc(r, r, Math.PI, Math.PI*1.5));
+  const total = segs.reduce((a,s)=>a+s.len, 0);
+  return { total, at(s){
+    s = ((s % total) + total) % total;
+    for(const g of segs){
+      if(s > g.len){ s -= g.len; continue; }
+      if(g.kind === 'l'){
+        const u = g.len ? s/g.len : 0;
+        const dx = (g.x2-g.x1)/(g.len||1), dy = (g.y2-g.y1)/(g.len||1);
+        return { x: g.x1 + (g.x2-g.x1)*u, y: g.y1 + (g.y2-g.y1)*u, nx: dy, ny: -dx };
+      }
+      const a = g.a0 + (g.a1-g.a0) * (g.len ? s/g.len : 0);
+      return { x: g.cx + Math.cos(a)*r, y: g.cy + Math.sin(a)*r, nx: Math.cos(a), ny: Math.sin(a) };
+    }
+    return { x:0, y:0, nx:0, ny:0 };
+  }};
+}
+
+function wavePath(w, h){
+  const inset = WAVE.amp + 3;
+  const iw = Math.max(1, w - inset*2), ih = Math.max(1, h - inset*2);
+  const S = roundedRectSampler(iw, ih, WAVE.radius);
+  const waves = Math.max(6, Math.round(S.total / WAVE.len));   // whole waves => seamless
+  const n = Math.max(48, Math.round(S.total / WAVE.step));
+  const pts = [];
+  for(let i=0; i<n; i++){
+    const s = S.total * i / n;
+    const p = S.at(s);
+    const off = WAVE.amp * Math.sin(2*Math.PI * waves * (s / S.total));
+    pts.push([inset + p.x + p.nx*off, inset + p.y + p.ny*off]);
+  }
+  // Catmull-Rom through the samples, closed
+  const g = i => pts[(i % n + n) % n];
+  let d = `M ${g(0)[0].toFixed(2)} ${g(0)[1].toFixed(2)}`;
+  for(let i=0; i<n; i++){
+    const p0=g(i-1), p1=g(i), p2=g(i+1), p3=g(i+2);
+    const c1=[p1[0]+(p2[0]-p0[0])/6, p1[1]+(p2[1]-p0[1])/6];
+    const c2=[p2[0]-(p3[0]-p1[0])/6, p2[1]-(p3[1]-p1[1])/6];
+    d += ` C ${c1[0].toFixed(2)} ${c1[1].toFixed(2)}, ${c2[0].toFixed(2)} ${c2[1].toFixed(2)}, ${p2[0].toFixed(2)} ${p2[1].toFixed(2)}`;
+  }
+  return d + ' Z';
+}
+
+function drawWave(){
+  document.querySelectorAll('.tl-wave').forEach(svg=>{
+    const panel = svg.parentElement;
+    const w = Math.round(panel.offsetWidth), h = Math.round(panel.offsetHeight);
+    if(!w || !h) return;
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    const d = wavePath(w, h);
+    svg.innerHTML =
+      `<path d="${d}" fill="#f6e7d8" stroke="#fdf6ec" stroke-width="16" stroke-linejoin="round"/>` +
+      `<path d="${d}" fill="none" stroke="#f2a7a4" stroke-width="6.5" stroke-linejoin="round"/>`;
+  });
+}
+if(window.ResizeObserver){
+  const ro = new ResizeObserver(()=>drawWave());
+  window.__waveRO = ro;
+}
+window.addEventListener('resize', drawWave);
+
+let ARC_N = 0;
+function arcHeading(txt){
+  const id = 'arc' + (++ARC_N);
+  // rises from the left, crests past the middle, eases down — matching the mockup
+  const d = 'M 16 182 Q 302 68 604 104';
+  return `<svg class="tl-headsvg" viewBox="0 0 620 190" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${txt}">
+    <defs><path id="${id}" d="${d}" fill="none"></path></defs>
+    <text text-anchor="middle"><textPath href="#${id}" startOffset="50%">${txt}</textPath></text>
+  </svg>`;
+}
+
+let LANG='en';
+function render(){
+  const t=COPY[LANG];
+  document.documentElement.lang=LANG;
+  document.getElementById('live').innerHTML=`
+  <section class="tl-section">
+    <img class="tl-star a" src="assets/star-green.webp" alt="">
+    <img class="tl-star b" src="assets/star-pink.webp" alt="">
+    <img class="tl-star c" src="assets/star-pink.webp" alt="">
+    <img class="tl-star d" src="assets/star-green.webp" alt="">
+    <div class="tl-panel">
+      <svg class="tl-wave" aria-hidden="true" preserveAspectRatio="none"></svg>
+      <h2 class="tl-head">${arcHeading(t.head)}</h2>
+      <p class="tl-note">${t.note}</p>
+      <div class="tl-grid">
+        ${t.items.map(i=>`
+          <div class="tl-item">
+            <img src="assets/${i[3]}.webp" alt="" loading="lazy">
+            <div class="tl-time">${i[0]}</div>
+            <div class="tl-name">${i[1]}</div>
+            <p class="tl-desc">${i[2]}</p>
+          </div>`).join('')}
+      </div>
+    </div>
+  </section>`;
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-current', b.dataset.lang===LANG?'true':'false'));
+  drawWave();
+  if(window.__waveRO){ document.querySelectorAll('.tl-panel').forEach(p=>window.__waveRO.observe(p)); }
+}
+document.addEventListener('click',e=>{const b=e.target.closest('.lang button'); if(!b)return; LANG=b.dataset.lang; render();});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sabi &amp; Tom — animations</title>
+<style>
+:root{
+  --paper:#f7f2e8; --paper2:#efe7d8; --ink:#22302a; --ink-soft:#4d6154;
+  --green:#2f5d43; --green-d:#1d3b2b; --sage:#8aa892; --note:#b4472e;
+  --line:rgba(34,48,42,.16);
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+     font:15px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+     -webkit-font-smoothing:antialiased}
+.wrap{max-width:780px;margin:0 auto;padding:56px 24px 90px}
+header{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:34px}
+h1{margin:0 0 6px;font-size:26px;font-weight:600;letter-spacing:-.01em}
+.sub{margin:0;color:var(--ink-soft);font-size:14px}
+.back{display:inline-block;margin-bottom:22px;font-family:var(--mono);font-size:11.5px;
+      letter-spacing:.06em;color:var(--sage);text-decoration:none}
+.back:hover{color:var(--green)}
+h2{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+   color:var(--sage);margin:40px 0 14px;font-weight:600}
+.v{border:1px solid var(--line);border-radius:5px;background:#fff;padding:0;margin:0 0 16px;overflow:hidden}
+.vhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:15px 20px 0}
+.vname{font-weight:600;font-size:16px}
+.vdate{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+.vnote{margin:8px 20px 0;color:var(--ink-soft);font-size:14px}
+.changes{margin:6px 20px 18px;padding-left:18px;font-size:13.5px;color:var(--ink-soft)}
+.changes li{margin:3px 0}
+.files{list-style:none;margin:14px 0 0;padding:0;border-top:1px solid var(--line)}
+.files li{border-bottom:1px solid var(--line)}
+.files li:last-child{border-bottom:0}
+.files a{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;padding:12px 20px;
+         text-decoration:none;color:var(--green-d)}
+.files a:hover{background:var(--paper2)}
+.fname{font-family:var(--mono);font-size:13px;color:var(--green);text-decoration:underline;text-underline-offset:3px}
+.fdesc{font-size:13px;color:var(--ink-soft)}
+.callout{border-left:3px solid var(--green);background:rgba(47,93,67,.08);
+         padding:12px 16px;margin:0 0 26px;font-size:13.5px;color:var(--green-d);border-radius:0 4px 4px 0}
+.callout b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+           text-transform:uppercase;margin-bottom:4px}
+footer{margin-top:46px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--sage)}
+code{font-family:var(--mono);font-size:12.5px;background:var(--paper2);padding:1px 5px;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="../index.html">&larr; prototype index</a>
+
+<header>
+  <h1>Animations</h1>
+  <p class="sub">Standalone pages, one motion idea each. Nothing here is wired into the site yet —
+  they exist so a movement can be judged and tuned on its own before it lands in a stage.</p>
+</header>
+
+<div class="callout">
+  <b>Shared source, on purpose</b>
+  Each page reuses the generator already in the build it belongs to &mdash;
+  <code>wavePath()</code> from <code>stage1</code>, <code>wavyLine()</code> from <code>stage3</code>
+  &mdash; copied verbatim. Only the reveal is new. If you change a generator in a stage,
+  change it here too, or the demo stops telling the truth.
+</div>
+
+<h2>Line reveals</h2>
+
+<div class="v">
+  <div class="vhead">
+    <span class="vname">Wavy panel edge, self-drawing</span>
+    <span class="vdate">27 Aug 2026</span>
+  </div>
+  <p class="vnote">The cream timeline panel's wavy border drawn from a single point until it closes on
+  itself, with the panel fill and the content fading in behind it. Sliders for wavelength, amplitude,
+  corner radius and duration.</p>
+  <ul class="changes">
+    <li>The look is one ratio: wavelength to amplitude, about <strong>11&nbsp;:&nbsp;1</strong>
+        (<code>len&nbsp;190</code>, <code>amp&nbsp;17</code> in <code>stage1</code>). Raise the
+        amplitude and the wobble turns into a zigzag.</li>
+    <li>Wave count is rounded to a whole number, which is what lets the sine meet itself at the
+        seam with no kink.</li>
+    <li><code>stroke-dashoffset</code> is not GPU-composited &mdash; it repaints every frame.
+        One path is fine; a dozen is not.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="wavy-frame-draw.html">
+      <span class="fname">animations/wavy-frame-draw.html</span>
+      <span class="fdesc">Panel edge reveal, with controls.</span>
+    </a></li>
+  </ul>
+</div>
+
+<div class="v">
+  <div class="vhead">
+    <span class="vname">Wavy underline, self-drawing</span>
+    <span class="vdate">27 Aug 2026</span>
+  </div>
+  <p class="vnote">The rule under the section 07 heading drawn left to right, staggered across three
+  headings so the timing can be judged as a group rather than one at a time.</p>
+  <ul class="changes">
+    <li>Each rule regenerates at its heading's real width, so the bumps stay the same size and the
+        count differs per heading. That is the intended behaviour, not a bug.</li>
+    <li>Needs <code>document.fonts.ready</code> before measuring &mdash; measured too early, the
+        width is the fallback font's and every rule is wrong.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="wavy-underline-draw.html">
+      <span class="fname">animations/wavy-underline-draw.html</span>
+      <span class="fdesc">Heading underline reveal, with controls.</span>
+    </a></li>
+  </ul>
+</div>
+
+<h2>Open questions</h2>
+<ul class="changes" style="margin-left:0">
+  <li><strong>Does the site want entrance animation at all?</strong> Nothing in the Canva set implies
+      motion. This is an addition to the design, not a rebuild of it, and needs the same sign-off a
+      copy or layout change would.</li>
+  <li><strong>Reduced motion.</strong> Neither page honours <code>prefers-reduced-motion</code> yet.
+      Anything that ships must, and the frame reveal in particular hides the panel until it finishes.</li>
+  <li><strong>Where a reveal would trigger.</strong> On load, or on scroll into view via
+      <code>IntersectionObserver</code>? Not decided.</li>
+</ul>
+
+<footer>
+  Prototypes only. Add a page here whenever a new motion idea needs judging on its own.
+</footer>
+
+</div>
+</body>
+</html>

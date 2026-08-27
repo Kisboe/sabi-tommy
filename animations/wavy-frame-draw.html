@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Wavy panel edge — self-drawing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Caveat+Brush&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#efe7d8; --panel:#f6e7d8; --halo:#fdf6ec; --pink:#f2a7a4;
+  --orange-ink:#e3701c; --green-ink:#2f5d43; --ink-soft:#4d6154; --sage:#8aa892;
+  --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --draw:3.2s;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--green-ink);
+     font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+     display:flex;flex-direction:column;align-items:center;padding:34px 20px 60px}
+.cap{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+     color:var(--sage);margin:0 0 18px}
+.cap a{color:var(--sage)}
+.stage{width:min(94vw,460px);aspect-ratio:1080/1440;position:relative;container-type:inline-size}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+
+/* --- the animation -------------------------------------------------
+   One path, drawn twice. #halo is the panel: filled, plus a thick
+   halo-coloured stroke that fattens it outward so the pink line lands
+   parallel inside the edge. #line is the same geometry, stroked pink,
+   revealed by animating stroke-dashoffset. pathLength="1" normalises
+   the length so no measuring is needed.                             */
+#halo{fill:var(--panel);stroke:var(--halo);stroke-width:16;stroke-linejoin:round;
+      opacity:0;animation:fade .9s ease forwards;animation-delay:calc(var(--draw)*.5)}
+#line{fill:none;stroke:var(--pink);stroke-width:6.5;stroke-linejoin:round;stroke-linecap:round;
+      stroke-dasharray:1;stroke-dashoffset:1;
+      animation:draw var(--draw) cubic-bezier(.6,.02,.35,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+
+.inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+       justify-content:center;text-align:center;padding:14% 16%;gap:.5em;
+       opacity:0;animation:fade .8s ease forwards;animation-delay:calc(var(--draw)*.78)}
+.inner h1{font-family:Anton,Impact,sans-serif;font-weight:400;color:var(--orange-ink);
+          font-size:13cqw;letter-spacing:.03em;margin:0;line-height:1}
+.inner p{font-size:3.2cqw;color:var(--ink-soft);margin:.6em 0 0;max-width:88%}
+.inner .t{font-family:'Caveat Brush',cursive;font-size:7cqw;color:var(--green-ink);margin-top:.5em}
+
+.controls{display:flex;gap:14px 20px;flex-wrap:wrap;justify-content:center;align-items:center;
+          margin-top:26px;max-width:520px}
+label{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:10px;
+      letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+input[type=range]{accent-color:var(--pink);width:96px}
+button{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+       border:1px solid var(--green-ink);background:transparent;color:var(--green-ink);
+       padding:7px 15px;border-radius:999px;cursor:pointer}
+button:hover{background:var(--green-ink);color:var(--paper)}
+.note{font-family:var(--mono);font-size:11px;color:var(--sage);line-height:1.8;
+      margin-top:30px;max-width:520px;text-align:center}
+code{background:rgba(34,48,42,.07);padding:1px 5px;border-radius:3px;font-size:11px}
+</style>
+</head>
+<body>
+
+<p class="cap"><a href="index.html">&larr; animations</a> &nbsp;·&nbsp; wavy panel edge, self-drawing</p>
+
+<div class="stage" id="stage">
+  <svg id="svg" preserveAspectRatio="none" aria-hidden="true">
+    <path id="halo" d=""/>
+    <path id="line" pathLength="1" d=""/>
+  </svg>
+  <div class="inner">
+    <h1>TIMELINE</h1>
+    <p>The panel edge from <code>stage1</code>, drawing itself from a single point until it closes.</p>
+    <div class="t">13:00</div>
+  </div>
+</div>
+
+<div class="controls">
+  <label>Wavelength <input id="len" type="range" min="90" max="320" step="5" value="190"></label>
+  <label>Amplitude <input id="amp" type="range" min="4" max="34" step="1" value="17"></label>
+  <label>Corner <input id="rad" type="range" min="10" max="140" step="2" value="54"></label>
+  <label>Speed <input id="dur" type="range" min="1" max="8" step=".2" value="3.2"></label>
+  <button id="replay">Replay</button>
+</div>
+
+<p class="note">
+  Wavelength : amplitude is the whole look — about <strong>11 : 1</strong> here. Push the amplitude
+  up and it stops reading as a lazy wobble and starts reading as a zigzag.<br>
+  <code>stroke-dashoffset</code> repaints every frame and is not GPU-composited. Fine for one path;
+  do not animate a dozen.
+</p>
+
+<script>
+/* Sampler and path generator lifted verbatim from stage1/index.html so this
+   demo and the real panel cannot drift apart. The ONLY addition here is the
+   pathLength/stroke-dashoffset reveal in the CSS above. */
+function roundedRectSampler(w, h, r){
+  r = Math.min(r, w/2, h/2);
+  const segs = [];
+  const line = (x1,y1,x2,y2) => ({kind:'l', x1,y1,x2,y2, len: Math.hypot(x2-x1, y2-y1)});
+  const arc  = (cx,cy,a0,a1) => ({kind:'a', cx,cy,a0,a1, len: Math.abs(a1-a0)*r});
+  segs.push(line(r, 0, w-r, 0));
+  segs.push(arc(w-r, r, -Math.PI/2, 0));
+  segs.push(line(w, r, w, h-r));
+  segs.push(arc(w-r, h-r, 0, Math.PI/2));
+  segs.push(line(w-r, h, r, h));
+  segs.push(arc(r, h-r, Math.PI/2, Math.PI));
+  segs.push(line(0, h-r, 0, r));
+  segs.push(arc(r, r, Math.PI, Math.PI*1.5));
+  const total = segs.reduce((a,s)=>a+s.len, 0);
+  return { total, at(s){
+    s = ((s % total) + total) % total;
+    for(const g of segs){
+      if(s > g.len){ s -= g.len; continue; }
+      if(g.kind === 'l'){
+        const dx = (g.x2-g.x1)/(g.len||1), dy = (g.y2-g.y1)/(g.len||1), u = g.len ? s/g.len : 0;
+        return { x: g.x1 + (g.x2-g.x1)*u, y: g.y1 + (g.y2-g.y1)*u, nx: dy, ny: -dx };
+      }
+      const a = g.a0 + (g.a1-g.a0) * (g.len ? s/g.len : 0);
+      return { x: g.cx + Math.cos(a)*r, y: g.cy + Math.sin(a)*r, nx: Math.cos(a), ny: Math.sin(a) };
+    }
+    return { x:0, y:0, nx:0, ny:0 };
+  }};
+}
+function wavePath(w, h, WAVE){
+  const inset = WAVE.amp + 3;
+  const iw = Math.max(1, w - inset*2), ih = Math.max(1, h - inset*2);
+  const S = roundedRectSampler(iw, ih, WAVE.radius);
+  const waves = Math.max(6, Math.round(S.total / WAVE.len));   // whole waves => seamless
+  const n = Math.max(48, Math.round(S.total / WAVE.step));
+  const pts = [];
+  for(let i=0; i<n; i++){
+    const s = S.total * i / n, p = S.at(s);
+    const off = WAVE.amp * Math.sin(2*Math.PI * waves * (s / S.total));
+    pts.push([inset + p.x + p.nx*off, inset + p.y + p.ny*off]);
+  }
+  const g = i => pts[(i % n + n) % n], f = v => v.toFixed(2);
+  let d = `M ${f(g(0)[0])} ${f(g(0)[1])}`;
+  for(let i=0; i<n; i++){
+    const p0=g(i-1), p1=g(i), p2=g(i+1), p3=g(i+2);
+    d += ` C ${f(p1[0]+(p2[0]-p0[0])/6)} ${f(p1[1]+(p2[1]-p0[1])/6)},`
+       + ` ${f(p2[0]-(p3[0]-p1[0])/6)} ${f(p2[1]-(p3[1]-p1[1])/6)},`
+       + ` ${f(p2[0])} ${f(p2[1])}`;
+  }
+  return d + ' Z';
+}
+
+const $ = id => document.getElementById(id);
+function render(){
+  const st = $('stage'), w = Math.round(st.offsetWidth), h = Math.round(st.offsetHeight);
+  if(!w || !h) return;
+  const WAVE = { len:+$('len').value, amp:+$('amp').value, radius:+$('rad').value, step:7 };
+  const d = wavePath(w, h, WAVE);
+  $('svg').setAttribute('viewBox', `0 0 ${w} ${h}`);
+  $('halo').setAttribute('d', d);
+  $('line').setAttribute('d', d);
+  document.documentElement.style.setProperty('--draw', $('dur').value + 's');
+  document.querySelectorAll('#halo,#line,.inner').forEach(el=>{
+    el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+  });
+}
+['len','amp','rad','dur'].forEach(id => $(id).addEventListener('input', render));
+$('replay').addEventListener('click', render);
+if(window.ResizeObserver) new ResizeObserver(()=>render()).observe($('stage'));
+document.fonts && document.fonts.ready.then(render);
+render();
+</script>
+</body>
+</html>
