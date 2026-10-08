@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Stage 5 — menu, dress code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Norican&family=DM+Mono:wght@400;500&family=Caveat+Brush&family=Anonymous+Pro:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 11 — sampled from 11.01.menu.background.png / 11.02.menu.frame.png / 11.menu.png */
+  --mn-stripe-a:#fef2df;
+  --mn-stripe-b:#accfd5;
+  --mn-card:#fdf8ef;
+  --mn-frame:#9ba571;
+  --mn-ink:#2f4e37;       /* heading */
+  --mn-body:#33473a;
+  --mn-blue:#3e7798;      /* wavy underline under the heading */
+  --mn-ray:#ef8b84;
+  --mn-dot:#b4bd8a;
+  --mn-olive:#5f6e26;     /* row headings — mockup olive, darkened for contrast */
+  --mn-coral:#b8504a;     /* row headings — mockup coral, darkened for contrast */
+  /* 12 — sampled from 12.dresscode.png */
+  --dc-ground:#fcede2;
+  --dc-pink:#e7a59f;      /* heading */
+  --dc-accent:#b04b44;    /* "Garden Formal" — darker than the mockup #e7a09a, 4.7:1 on the ground */
+  --dc-ink:#4f6250;
+  --dc-rule:#efbcb5;
+  --f-script:'Norican',cursive;
+  --f-brush:'Caveat Brush',cursive;
+  --f-body:'DM Mono',monospace;
+  --f-ui:'Anonymous Pro',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#efe7d8;font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+
+/* review chrome only */
+#bar{position:sticky;top:0;z-index:40;display:flex;gap:10px;align-items:center;
+  padding:9px 14px;background:#fffdf8;border-bottom:1px solid rgba(0,0,0,.12);font-family:var(--f-ui);font-size:12px}
+#bar .tag{margin-right:auto;letter-spacing:.14em;text-transform:uppercase;font-size:10px;color:#6b7a70}
+.lang{display:inline-flex;border:1px solid rgba(0,0,0,.2);border-radius:999px;overflow:hidden}
+.lang button{font-family:var(--f-ui);font-size:12px;border:0;background:transparent;padding:5px 12px;cursor:pointer;color:#4d6154}
+.lang button[aria-current="true"]{background:#eb6c18;color:#fff}
+.secttl{font-family:var(--f-ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:#6b7a70;background:#fffdf8;padding:12px 16px;border-top:1px solid rgba(0,0,0,.12)}
+[id]{scroll-margin-top:44px}
+.side{display:grid;grid-template-columns:1fr 1fr;align-items:start}
+.side > div{min-width:0}
+.side .mockimg{width:100%;height:auto;display:block}
+#s11,#s12{container-type:inline-size}
+.cap{font-family:var(--f-ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  padding:7px 12px;color:#6b7a70;background:#fffdf8;border-bottom:1px solid rgba(0,0,0,.08)}
+.hint{font-family:var(--f-ui);font-size:11px;color:#6b7a70;padding:14px 18px;line-height:1.7;
+  background:#fffdf8;border-top:1px solid rgba(0,0,0,.1)}
+.hint b{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:10px;margin-bottom:4px;color:#b4472e}
+.hint ul{margin:8px 0 14px;padding-left:18px}
+.hint li{margin:0 0 6px}
+
+/* ---------- 11 menu ---------- */
+/* Stripes are a CSS gradient, not 11.01.menu.background.png, so they never stretch. */
+.mn{container-type:inline-size;overflow:hidden;padding:clamp(18px,5cqw,40px) clamp(14px,4.5cqw,40px);
+  background:repeating-linear-gradient(90deg,var(--mn-stripe-a) 0 6cqw,var(--mn-stripe-b) 6cqw 12cqw);
+  color:var(--mn-body)}
+.mn-card{position:relative;padding:clamp(30px,8cqw,58px) clamp(26px,8cqw,62px) clamp(34px,8cqw,56px)}
+/* the wavy frame is an SVG path generated at the card's measured size */
+.mn-frame{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:visible}
+.mn-card > *:not(.mn-frame):not(.mn-star){position:relative;z-index:1}
+.mn-star{z-index:1}
+.mn-star{position:absolute;width:auto;pointer-events:none}
+.mn-head{display:flex;align-items:center;justify-content:center;gap:clamp(8px,3cqw,22px);margin:0}
+.mn-ray{flex:none;height:clamp(22px,6cqw,40px);width:auto}
+.mn-h{font-family:var(--f-brush);font-weight:400;color:var(--mn-ink);font-size:clamp(50px,15cqw,96px);
+  line-height:1;margin:0;letter-spacing:.04em}
+.mn-rule{display:block;height:clamp(10px,2.4cqw,16px);width:auto;margin:6px auto 0}
+.mn-intro{text-align:center;max-width:34em;margin:clamp(16px,4cqw,26px) auto 6px;
+  font-size:clamp(12px,2.6cqw,14px);line-height:1.8}
+.mn-rows{list-style:none;margin:0;padding:0}
+.mn-row{display:grid;grid-template-columns:clamp(96px,26cqw,170px) 1fr;gap:clamp(12px,4cqw,28px);
+  align-items:center;padding:clamp(14px,3.4cqw,22px) 0}
+.mn-row + .mn-row{border-top:2px dotted var(--mn-dot)}
+.mn-ill{display:flex;justify-content:center;align-items:center}
+.mn-ill img{display:block;height:clamp(58px,14cqw,96px);width:auto;max-width:100%;object-fit:contain}
+.mn-txt{min-width:0}
+/* row headings — the mockup's bold display caps, cycling its blue / olive / coral; inks darkened
+   from the mockup so each clears 4.5:1 on the card */
+.mn-rh{font-family:var(--f-brush);font-weight:400;text-transform:uppercase;letter-spacing:.05em;
+  font-size:clamp(19px,4.6cqw,26px);line-height:1.15;margin:0 0 .3em;color:var(--mn-blue)}
+.mn-row:nth-child(5n+2) .mn-rh,.mn-row:nth-child(5n+5) .mn-rh{color:var(--mn-olive)}
+.mn-row:nth-child(5n+3) .mn-rh{color:var(--mn-coral)}
+.mn-row p{margin:0;font-size:clamp(12px,2.6cqw,14px);line-height:1.8}
+.mn-divider{display:block;height:clamp(18px,4.4cqw,28px);width:auto;margin:clamp(14px,3cqw,22px) auto 0}
+@container (max-width:420px){
+  .mn-row{grid-template-columns:1fr;text-align:center;gap:10px}
+  .mn-ill img{height:64px}
+}
+
+/* ---------- 12 dress code ---------- */
+.dc{container-type:inline-size;position:relative;overflow:hidden;background:var(--dc-ground);
+  color:var(--dc-ink);padding:clamp(24px,6cqw,46px) 0 0;text-align:center}
+.dc-deco{position:absolute;width:auto;pointer-events:none;z-index:0}
+.dc-inner{position:relative;z-index:1;padding:0 clamp(18px,9cqw,72px)}
+.dc-h{font-family:var(--f-script);font-weight:400;color:var(--dc-pink);
+  font-size:clamp(54px,15cqw,104px);line-height:1.05;margin:0 0 clamp(10px,3cqw,22px)}
+.dc-body{max-width:31em;margin:0 auto;text-align:left;font-size:clamp(12px,2.6cqw,14px);line-height:1.8}
+.dc-body p{margin:0 0 1.05em}
+.dc-body strong{color:var(--dc-accent);font-weight:500}
+.dc-spark{display:block;width:12px;height:12px;margin:0 auto 1.05em}
+.dc-sep{display:flex;align-items:center;gap:8px;margin:clamp(8px,2cqw,14px) auto clamp(14px,3cqw,22px);max-width:34em}
+.dc-sep::before,.dc-sep::after{content:"";flex:1;height:1px;background:var(--dc-rule)}
+.dc-sep svg{flex:none;width:12px;height:12px}
+/* the figures sit on the section's foot; natural aspect, sized by width with height auto */
+.dc-people{position:relative;z-index:1;display:block;width:min(100%,640px);height:auto;margin:0 auto;padding:0 clamp(8px,3cqw,24px)}
+@container (max-width:420px){
+  .dc-body{text-align:left}
+  .dc-deco.hide-sm{display:none}
+}
+
+@media(max-width:820px){ .side{grid-template-columns:1fr} }
+@media(prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+
+<div id="bar">
+  <span class="tag">Stage 5 · menu, dress code</span>
+  <span class="lang">
+    <button data-lang="en" aria-current="true">EN</button>
+    <button data-lang="es" aria-current="false">ES</button>
+  </span>
+</div>
+
+<div class="secttl">11 — Menu</div>
+<div class="side">
+  <div><div class="cap">Your mockup</div><img class="mockimg" id="m11" src="assets/mockup-11.webp" width="1024" height="1536" alt=""></div>
+  <div><div class="cap">Rebuilt in HTML</div><div id="s11"></div></div>
+</div>
+
+<div class="secttl">12 — Dress code</div>
+<div class="side">
+  <div><div class="cap">Your mockup</div><img class="mockimg" id="m12" src="assets/mockup-12.webp" width="1024" height="1536" alt="" loading="lazy"></div>
+  <div><div class="cap">Rebuilt in HTML</div><div id="s12"></div></div>
+</div>
+
+<div class="hint">
+  <b>Copy rule</b>
+  <strong><code>SITE-COPY.md</code> always takes precedence.</strong> Every string in these two
+  sections is verbatim from the doc; the mockups are a design reference, not a copy source.
+
+  <b>Still open — these are not wording, so the rule does not settle them</b>
+  <ul>
+    <li><strong>11 · <code>MENU</code> or <code>MENÚ</code> (BOD-12).</strong> The mockup says
+      <em>MENU</em>; the doc says <em>MENÚ</em> in both languages. <code>FACTS.md</code> lists this as
+      disputed. Built as the doc's <em>MENÚ</em> in both.</li>
+    <li><strong>11 · the menu copy touches BOD-5.</strong> It says <em>"a vegetarian option and a
+      special menu for the little ones"</em>. FAQ 12 offers 10–17-year-olds a choice of menus; the
+      RSVP form asks vegetarian yes/no; the meal rules in <code>FACTS.md</code> say standard /
+      vegetarian / special diet, with an adult meal for 10–17s. The menu copy mentions neither the
+      special-diet option nor the 10–17 rule. Not changed here.</li>
+    <li><strong>11 · which illustration goes with which paragraph.</strong> Cocktail → welcome
+      cocktail, plate and cutlery → seated lunch, cake → cake, chips and dip → late-night food,
+      leaves with a heart → the reminder. The appetiser platter (<code>11.12</code>) is unused; the
+      English mockup puts it beside the lunch, the Spanish one beside <em>Entrantes</em>. The
+      reminder's icon is <code>12.06.dresscode.icons.branch.png</code> — filed under dress code, but it
+      is the menu mockup's <em>Friendly Reminder</em> drawing exactly.</li>
+    <li><strong>11 · the English and Spanish menu mockups are two designs</strong> — blue stripes and
+      an olive frame in English, pink stripes and a pink frame in Spanish (BOD-4). Built to the
+      English one in both languages.</li>
+    <li><strong>12 · the dress-code line icons are not in the asset folder.</strong> The mockup's
+      hanger, branch, garden arch, high heel, cardigan and heart-with-rays have no files in
+      <code>Elementos de la plantilla /</code> — <code>12.06…branch</code> is the menu's leaves-and-heart
+      drawing, not the dress-code branch. Built as a plain text column without the icon column.</li>
+    <li><strong>12 · the figures are not the mockup's figures.</strong>
+      <code>12.01.dresscode.illustrations.people.png</code> has eight faceless illustrated figures
+      (not photographs, so it is safe for the public preview), but the fourth wears a beige trouser
+      suit where the mockup has a black dress, and the fifth a floral dress where the mockup has a
+      patterned top and grey skirt. Built with the file that exists — the repo's
+      <code>ill-dresscode.webp</code>, re-keyed 2026-09-02. The scrapbook/moodboard collage named in
+      the site structure does not exist anywhere (<code>SITE-COPY.md</code> open items).</li>
+    <li><strong>12 · the colour swatches.</strong> The mockup shows six colour dots (olive, pink,
+      black, brown, blue, yellow) above the figures under the label <em>Garden Formal Themed
+      Attire</em>. The label is not in the doc and the palette is guidance to guests that the doc
+      never gives, so both are left out. Decide whether a palette ships; if so, its label goes into
+      <code>SITE-COPY.md</code>.</li>
+    <li><strong>12 · English and Spanish say different things inside the doc.</strong> English:
+      <em>"avoiding thin heels if possible"</em>; Spanish drops the <em>if possible</em>
+      (<em>"evitar los zapatos de tacón fino"</em>). English: <em>"don't worry. The hotel has…"</em>;
+      Spanish has no <em>don't worry</em>. The doc cannot outrank itself.</li>
+    <li><strong>12 · <code>SITE-COPY.md</code> open items still lists "Garden Formal vs Elegant
+      Casual"</strong> as undecided, while <code>FACTS.md</code> settles it as Garden Formal /
+      formal de jardín. The open item looks stale; built as Garden Formal.</li>
+    <li><strong>Spanish register.</strong> Both sections are <em>ustedes</em> in the doc — 11:
+      <em>"Les pedimos, por favor, que dejen…"</em>; 12: <em>"les permita… ser ustedes mismos… les
+      recomendamos… eligen… Tengan en cuenta"</em>. The locked decision is <em>vosotros/tú</em> (and
+      the Spanish mockups already use it). Left verbatim so the rewrite happens once, as one job.</li>
+    <li><strong>Contrast.</strong> The dress-code heading pink (<code>#e7a59f</code>) on the ground is
+      about 1.8:1 — acceptable only as large decorative script; the doc gives no alternative. <em>Garden Formal</em> is set in a darker pink
+      (<code>#b04b44</code>) than the mockup (4.7:1) so body-size text passes AA; the mockup pink is 3.3:1.</li>
+    <li><strong>Body type.</strong> The doc says DM Mono for both sections; the mockups are a rounded
+      sans. Same question as stages 3 and 4 (BOD-21).</li>
+  </ul>
+
+  <b>Settled by the copy rule — recorded, no action needed</b>
+  <ul>
+    <li><strong>11 · English wording.</strong> Mockup: <em>"vegetarian options… a special menu for
+      children"</em>. Doc: <em>"a vegetarian option and a special menu for the little ones"</em>.
+      Built from the doc. The doc's opening line, <em>"We have prepared a special dining experience
+      for the day"</em>, is not in the mockup; it is in the build.</li>
+    <li><strong>11 · block headings</strong> — approved 1 Oct 2026: the five English mockup headings,
+      with Spanish taken from the Spanish mockup where it has a match (<em>Un pequeño recordatorio</em>
+      is new). Added to <code>SITE-COPY.md</code> §11.</li>
+    <li><strong>11 · the Spanish mockup is a different draft</strong> — a different structure, no
+      reminder paragraph, and <em>"Contaremos la tarta nupcial antes de la fiesta"</em>. Built from
+      the doc.</li>
+    <li><strong>11 · heading face.</strong> The doc names Caveat Brush; the mockup's heavy display
+      caps are the theme face. Caveat Brush it is.</li>
+    <li><strong>12 · the mockup's extra lines.</strong> The opening <em>"We want you to feel
+      comfortable and enjoy this very special day with us"</em>, the closing <em>"The most important
+      thing is that you come ready to celebrate…"</em>, and the tails <em>"so you can walk around and
+      enjoy the day comfortably"</em> and <em>"so you can continue enjoying the celebration without
+      any discomfort"</em> are not in the doc. Left out.</li>
+    <li><strong>12 · "Elegante Informal".</strong> The Spanish mockup says <em>Elegante Informal</em>
+      and <em>Atuendo elegante informal de jardín</em> — dead wording. Built as the doc's
+      <em>formal de jardín</em>.</li>
+    <li><strong>12 · heading.</strong> The Spanish mockup says <em>Código de Vestimenta</em>; the doc
+      says <em>Dress Code</em> in both languages. Built as <em>Dress Code</em> in both, in Norican.</li>
+  </ul>
+
+  <b>How this was drawn</b>
+  The menu's stripes are a CSS gradient, not <code>11.01</code>. The wavy card border is an SVG path
+  regenerated at the card's measured size whenever it changes, so the wobble keeps its amplitude in
+  both languages and at any width; <code>11.02</code> is not used. The rays beside the heading and the
+  wavy underline are inline SVG in fixed viewBoxes — <code>11.04</code>/<code>11.05</code> are RGB
+  files with a baked checkerboard. Illustrations, stars, leaves and the figures are sized by CSS
+  <em>height</em> (the figures by width, height auto, at their own aspect). The five menu
+  illustrations were re-keyed from source with the white fill removed, per <code>DESIGN.md</code>.
+  Below about 420&nbsp;px the menu rows stack, illustration above text.
+
+  <b>Typography warning</b>
+  Norican, Caveat Brush, DM Mono and Anonymous Pro are loaded from Google Fonts. Offline they fall
+  back to system faces and the page looks wrong. Judge the type only on the deployed preview.
+</div>
+
+<script>
+const COPY = {
+ en:{
+  s11:{
+   h:'MENÚ',
+   intro:'We have prepared a special dining experience for the day.',
+   heads:['Welcome Cocktail','The Wedding Meal','Sweet Moment','Late Night Bites & Drinks','Friendly Reminder'],
+   rows:[
+    'We will begin with a welcome cocktail and a selection of appetisers served in the hotel gardens.',
+    'Afterwards, we will enjoy a seated lunch. The menu includes a vegetarian option and a special menu for the little ones.',
+    'We\'ll also cut the wedding cake before the dancing.',
+    'And because dancing always works up an appetite, we\'ll have a selection of savoury and sweet treats during the party, alongside two hours of open bar.',
+    'Please leave the vegetarian savoury snacks for guests who do not eat beef or pork, so everyone has something to enjoy.'
+   ]
+  },
+  s12:{
+   h:'Dress Code',
+   paras:[
+    'The dress code will be <strong>Garden Formal</strong>.',
+    'We are looking for a style that feels special and well put together, while still allowing you to feel comfortable and be yourselves.',
+    'As the celebration will take place in the hotel gardens, we recommend avoiding thin heels if possible.',
+    'And if you do choose shoes that turn out not to be as comfortable as expected, don\'t worry. The hotel has a selection of shoes available in different sizes.',
+    'Please keep in mind that the wedding will take place in October, so we recommend bringing a light jumper, cardigan, or jacket in case it gets cooler later in the day.'
+   ],
+   people:'Eight illustrated guests in garden-formal outfits: suits, a tuxedo, and long and short dresses in olive, pink, cream, blue and yellow'
+  }
+ },
+ es:{
+  s11:{
+   h:'MENÚ',
+   intro:'Hemos preparado una experiencia gastronómica muy especial para este día.',
+   heads:['Cóctel de bienvenida','Comida principal','Momento dulce','Picoteo nocturno y copas','Un pequeño recordatorio'],
+   rows:[
+    'Comenzaremos con un cóctel de bienvenida y una selección de aperitivos servidos en los jardines del hotel.',
+    'Después pasaremos a las mesas para disfrutar del almuerzo. El menú incluye una opción vegetariana y un menú especial para los más pequeños.',
+    'También cortaremos la tarta nupcial antes de que empiece el baile.',
+    'Y, como bailar siempre abre el apetito, durante la fiesta habrá una selección de bocados dulces y salados, además de dos horas de barra libre.',
+    'Les pedimos, por favor, que dejen los aperitivos salados vegetarianos para los invitados que no comen carne de vacuno o cerdo, para que todos tengan algo que disfrutar.'
+   ]
+  },
+  s12:{
+   h:'Dress Code',
+   paras:[
+    'El código de vestimenta será <strong>formal de jardín</strong>.',
+    'Buscamos un estilo elegante y cuidado, pero que al mismo tiempo les permita sentirse cómodos y ser ustedes mismos.',
+    'Como la celebración tendrá lugar en los jardines del hotel, les recomendamos evitar los zapatos de tacón fino.',
+    'Y si finalmente eligen unos zapatos que resultan no ser tan cómodos como esperaban, el hotel dispone de una selección de calzado de diferentes tallas.',
+    'Tengan en cuenta que la boda será en octubre, por lo que les recomendamos traer un jersey fino, una rebeca o una chaqueta ligera por si refresca al final del día.'
+   ],
+   people:'Ocho invitados ilustrados con atuendos formales de jardín: trajes, un esmoquin y vestidos largos y cortos en verde oliva, rosa, crema, azul y amarillo'
+  }
+ }
+};
+let LANG = 'en';
+
+/* ------------------------------------------------------------------
+   Wavy shapes are generated, never stretched from a bitmap.
+   Same helpers as stage 3: wavyPath() walks the perimeter of a box and
+   pushes each step alternately in and out, so the wobble keeps its
+   amplitude whatever size the box ends up.
+   ------------------------------------------------------------------ */
+function wavyPath(w, h, amp, wave, inset){
+  const x0 = inset, y0 = inset, x1 = w - inset, y1 = h - inset;
+  const edges = [
+    {from:[x0,y0], to:[x1,y0], n:[0,-1]},
+    {from:[x1,y0], to:[x1,y1], n:[1,0]},
+    {from:[x1,y1], to:[x0,y1], n:[0,1]},
+    {from:[x0,y1], to:[x0,y0], n:[-1,0]}
+  ];
+  let d = '', flip = 1, first = true;
+  for(const e of edges){
+    const dx = e.to[0]-e.from[0], dy = e.to[1]-e.from[1];
+    const len = Math.hypot(dx,dy);
+    let n = Math.max(2, Math.round(len/wave));
+    if(n % 2) n++;
+    if(first){ d += `M ${e.from[0].toFixed(1)} ${e.from[1].toFixed(1)}`; first = false; }
+    for(let i=0;i<n;i++){
+      const t0 = i/n, t1 = (i+1)/n, tm = (t0+t1)/2;
+      const mx = e.from[0]+dx*tm + e.n[0]*amp*flip;
+      const my = e.from[1]+dy*tm + e.n[1]*amp*flip;
+      const px = e.from[0]+dx*t1, py = e.from[1]+dy*t1;
+      d += ` Q ${mx.toFixed(1)} ${my.toFixed(1)} ${px.toFixed(1)} ${py.toFixed(1)}`;
+      flip = -flip;
+    }
+  }
+  return d + ' Z';
+}
+function wavyLine(w, amp, wave){
+  let n = Math.max(2, Math.round(w/wave)); if(n%2) n++;
+  let d = `M 0 ${amp.toFixed(1)}`, flip = 1;
+  for(let i=0;i<n;i++){
+    const x1 = w*(i+1)/n, xm = w*(i+0.5)/n;
+    d += ` Q ${xm.toFixed(1)} ${(amp - amp*flip).toFixed(1)} ${x1.toFixed(1)} ${amp.toFixed(1)}`;
+    flip = -flip;
+  }
+  return d;
+}
+
+/* rays beside the heading — fixed viewBox, scaled uniformly by CSS height */
+const RAYS_L = `<svg class="mn-ray" viewBox="0 0 30 40" aria-hidden="true"><g stroke="#ef8b84" stroke-width="3.2" stroke-linecap="round">
+  <line x1="6" y1="6" x2="22" y2="13"/><line x1="4" y1="20" x2="22" y2="20"/><line x1="6" y1="34" x2="22" y2="27"/></g></svg>`;
+const RAYS_R = `<svg class="mn-ray" viewBox="0 0 30 40" aria-hidden="true"><g stroke="#ef8b84" stroke-width="3.2" stroke-linecap="round">
+  <line x1="24" y1="6" x2="8" y2="13"/><line x1="26" y1="20" x2="8" y2="20"/><line x1="24" y1="34" x2="8" y2="27"/></g></svg>`;
+const RULE = `<svg class="mn-rule" viewBox="0 0 300 16" aria-hidden="true"><path d="${wavyLine(300, 5, 26)}" transform="translate(0 3)"
+  fill="none" stroke="#3e7798" stroke-width="3" stroke-linecap="round"/></svg>`;
+const SPARK = `<svg viewBox="-10 -10 20 20" aria-hidden="true"><g stroke="#efa9a2" stroke-width="2.2" stroke-linecap="round">
+  <line x1="0" y1="-8" x2="0" y2="8"/><line x1="-8" y1="0" x2="8" y2="0"/>
+  <line x1="-5.7" y1="-5.7" x2="5.7" y2="5.7"/><line x1="-5.7" y1="5.7" x2="5.7" y2="-5.7"/></g></svg>`;
+
+const MENU_ILL = ['menu-cocktail','menu-mainmeal','menu-cake','menu-nightsnacks','menu-leaves'];
+
+function render(){
+  const t = COPY[LANG];
+  document.documentElement.lang = LANG;
+  ['11','12'].forEach(n=>{
+    document.getElementById('m'+n).src = 'assets/mockup-' + n + (LANG==='es' ? '-es' : '') + '.webp';
+  });
+
+  document.getElementById('s11').innerHTML = `
+    <section class="mn">
+      <div class="mn-card">
+        <svg class="mn-frame" aria-hidden="true"><path fill="#fdf8ef" stroke="#9ba571" stroke-width="5" stroke-linejoin="round"/></svg>
+        <img class="mn-star" src="assets/star-pink.webp"   alt="" style="height:clamp(34px,10cqw,64px);left:7%;top:5%">
+        <img class="mn-star" src="assets/star-green.webp"  alt="" style="height:clamp(14px,3.6cqw,22px);left:13%;top:calc(5% + clamp(40px,11cqw,72px))">
+        <img class="mn-star" src="assets/star-blue.webp"   alt="" style="height:clamp(30px,9cqw,58px);right:7%;top:4%">
+        <img class="mn-star" src="assets/star-yellow.webp" alt="" style="height:clamp(14px,3.6cqw,22px);right:15%;top:calc(4% + clamp(36px,10cqw,64px))">
+        <div class="mn-head">${RAYS_L}<h2 class="mn-h">${t.s11.h}</h2>${RAYS_R}</div>
+        ${RULE}
+        <p class="mn-intro">${t.s11.intro}</p>
+        <ul class="mn-rows">
+          ${t.s11.rows.map((p,i)=>`<li class="mn-row">
+            <div class="mn-ill"><img src="assets/${MENU_ILL[i]}.webp" alt="" loading="lazy"></div>
+            <div class="mn-txt"><h3 class="mn-rh">${t.s11.heads[i]}</h3><p>${p}</p></div></li>`).join('')}
+        </ul>
+        <img class="mn-divider" src="assets/menu-divider.webp" alt="">
+      </div>
+    </section>`;
+
+  document.getElementById('s12').innerHTML = `
+    <section class="dc">
+      <img class="dc-deco" src="assets/dc-leaves.webp" alt="" style="height:clamp(70px,20cqw,150px);left:-5%;top:-3%;transform:rotate(-20deg)">
+      <img class="dc-deco" src="assets/dc-leaves.webp" alt="" style="height:clamp(56px,14cqw,110px);right:-4%;top:-4%;transform:scaleX(-1) rotate(-30deg)">
+      <img class="dc-deco hide-sm" src="assets/dc-leaves.webp" alt="" style="height:clamp(80px,22cqw,170px);left:-7%;top:56%;transform:rotate(30deg)">
+      <img class="dc-deco hide-sm" src="assets/dc-leaves.webp" alt="" style="height:clamp(80px,22cqw,170px);right:-7%;top:52%;transform:scaleX(-1) rotate(20deg)">
+      <img class="dc-deco" src="assets/star-pink.webp"      alt="" style="height:clamp(18px,4.6cqw,34px);left:8%;top:clamp(56px,13cqw,110px)">
+      <img class="dc-deco" src="assets/dc-star-green.webp"  alt="" style="height:clamp(22px,6cqw,46px);right:8%;top:clamp(60px,14cqw,120px)">
+      <img class="dc-deco hide-sm" src="assets/dc-star-yellow.webp" alt="" style="height:clamp(26px,7cqw,54px);right:5%;top:33%">
+      <div class="dc-inner">
+        <h2 class="dc-h">${t.s12.h}</h2>
+        <div class="dc-body">
+          <p>${t.s12.paras[0]}</p>
+          <span class="dc-spark">${SPARK}</span>
+          ${t.s12.paras.slice(1).map(p=>`<p>${p}</p>`).join('')}
+        </div>
+        <div class="dc-sep">${SPARK}</div>
+      </div>
+      <img class="dc-people" src="assets/dc-people.webp" width="780" height="307" alt="${t.s12.people}" loading="lazy">
+    </section>`;
+
+  document.querySelectorAll('.lang button').forEach(b=>
+    b.setAttribute('aria-current', b.dataset.lang===LANG ? 'true':'false'));
+  watchFrame();
+}
+
+/* The card border is regenerated at the card's measured size, so the wave
+   keeps its wavelength instead of being stretched to fit. */
+let frameObs;
+function drawFrame(card){
+  const svg = card.querySelector('.mn-frame');
+  const w = Math.round(card.clientWidth), h = Math.round(card.clientHeight);
+  if(!w || !h) return;
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  const amp = Math.max(5, Math.min(10, w/60)), wave = Math.max(38, Math.min(64, w/8));
+  svg.querySelector('path').setAttribute('d', wavyPath(w, h, amp, wave, amp + 4));
+}
+function watchFrame(){
+  const card = document.querySelector('.mn-card');
+  if(!card) return;
+  if(frameObs) frameObs.disconnect();
+  if('ResizeObserver' in window){
+    frameObs = new ResizeObserver(()=>drawFrame(card));
+    frameObs.observe(card);
+  } else {
+    addEventListener('resize', ()=>drawFrame(card));
+  }
+  drawFrame(card);
+}
+
+document.addEventListener('click', e=>{
+  const b = e.target.closest('.lang button');
+  if(!b) return;
+  LANG = b.dataset.lang;
+  render();
+});
+render();
+</script>
+</body>
+</html>

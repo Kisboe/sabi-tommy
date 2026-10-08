@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sabi &amp; Tom — prototype index</title>
+<style>
+:root{
+  --paper:#f7f2e8; --paper2:#efe7d8; --ink:#22302a; --ink-soft:#4d6154;
+  --green:#2f5d43; --green-d:#1d3b2b; --sage:#8aa892; --gold:#b0864b; --note:#b4472e;
+  --line:rgba(34,48,42,.16);
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font:15px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:780px;margin:0 auto;padding:56px 24px 90px}
+header{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:34px}
+h1{margin:0 0 6px;font-size:26px;font-weight:600;letter-spacing:-.01em}
+.sub{margin:0;color:var(--ink-soft);font-size:14px}
+.updated{
+  display:block;margin:10px 0 0;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.06em;color:var(--sage);
+}
+h2{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sage);margin:40px 0 14px;font-weight:600;
+}
+.v{border:1px solid var(--line);border-radius:5px;background:#fff;padding:0;margin:0 0 16px;overflow:hidden}
+.v.current{border-color:var(--green);box-shadow:0 1px 0 var(--green)}
+.vhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:15px 20px 0}
+.vname{font-weight:600;font-size:16px}
+.vdate{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+.badge{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 8px;border-radius:999px;background:var(--green);color:var(--paper);
+}
+.badge.old{background:var(--sage)}
+.vnote{margin:8px 20px 0;color:var(--ink-soft);font-size:14px}
+.files{list-style:none;margin:14px 0 0;padding:0;border-top:1px solid var(--line)}
+.files li{border-bottom:1px solid var(--line)}
+.files li:last-child{border-bottom:0}
+.files a{
+  display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;
+  padding:12px 20px;text-decoration:none;color:var(--green-d);
+}
+.files a:hover{background:var(--paper2)}
+.fname{font-family:var(--mono);font-size:13px;color:var(--green);text-decoration:underline;text-underline-offset:3px}
+.fdesc{font-size:13px;color:var(--ink-soft)}
+.tag-priv{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:#7d3020;background:rgba(180,71,46,.12);border:1px solid rgba(180,71,46,.35);
+  padding:1px 6px;border-radius:3px;
+}
+.tag-pub{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--green-d);background:rgba(47,93,67,.1);border:1px solid rgba(47,93,67,.35);
+  padding:1px 6px;border-radius:3px;
+}
+.tag-red{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--note);border:1px solid currentColor;padding:1px 6px;border-radius:3px;
+}
+.live{margin:10px 20px 16px;font-size:13px;color:var(--ink-soft)}
+.live a{color:var(--green);font-family:var(--mono);font-size:12px}
+.dead{text-decoration:line-through;opacity:.55}
+.changes{margin:6px 20px 18px;padding-left:18px;font-size:13.5px;color:var(--ink-soft)}
+.changes li{margin:3px 0}
+.callout{
+  border-left:3px solid var(--note);background:rgba(180,71,46,.07);
+  padding:12px 16px;margin:0 0 26px;font-size:13.5px;color:#7d3020;border-radius:0 4px 4px 0;
+}
+.callout b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+/* quick links to every section; unbuilt ones are plain text */
+.qlinks{list-style:none;margin:0 0 30px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.qlinks a,.qlinks span{display:flex;gap:8px;align-items:baseline;padding:6px 10px;border:1px solid var(--line);
+  border-radius:4px;font-size:13px;text-decoration:none;color:var(--green-d);background:#fff}
+.qlinks a:hover{background:var(--paper2)}
+.qlinks b{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--green)}
+.qlinks em{margin-left:auto;white-space:nowrap;font-style:normal;font-family:var(--mono);font-size:10px;color:var(--sage)}
+.qlinks span{color:var(--sage);background:transparent;border-style:dashed}
+.qlinks span b{color:var(--sage)}
+footer{margin-top:46px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--sage)}
+code{font-family:var(--mono);font-size:12.5px;background:var(--paper2);padding:1px 5px;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Sabi &amp; Tom — wedding site prototypes</h1>
+  <p class="sub">Every version keeps its own filename, so nothing is overwritten.
+  </p>
+  <span class="updated">Last updated Wednesday 7 October 2026</span>
+</header>
+
+<h2 style="margin-top:0">Sections</h2>
+<ul class="qlinks">
+  <li><a href="stage2/index.html#s01"><b>01</b> Envelope &amp; login <em>S2</em></a></li>
+  <li><a href="stage2/index.html#s02"><b>02</b> Header &amp; names <em>S2</em></a></li>
+  <li><a href="stage2/index.html#s03"><b>03</b> Countdown <em>S2</em></a></li>
+  <li><a href="stage3/index.html#s04"><b>04</b> Cute intro <em>S3</em></a></li>
+  <li><a href="stage3/index.html#s05"><b>05</b> Date &amp; place <em>S3</em></a></li>
+  <li><a href="stage3/index.html#s06"><b>06</b> A few words <em>S3</em></a></li>
+  <li><a href="stage3/index.html#s07"><b>07</b> Travelling from afar <em>S3</em></a></li>
+  <li><a href="stage4/index.html#s08"><b>08</b> Where? <em>S4</em></a></li>
+  <li><a href="stage4/index.html#s09"><b>09</b> Stay at the hotel <em>S4</em></a></li>
+  <li><a href="stage1/"><b>10</b> Timeline <em>S1</em></a></li>
+  <li><a href="stage5/index.html#s11"><b>11</b> Menu <em>S5</em></a></li>
+  <li><a href="stage5/index.html#s12"><b>12</b> Dress code <em>S5</em></a></li>
+  <li><a href="stage6/index.html#s13"><b>13</b> Gifts <em>S6</em></a></li>
+  <li><a href="stage6/index.html#s14"><b>14</b> Surprises <em>S6</em></a></li>
+  <li><a href="stage6/index.html#s15"><b>15</b> Music request <em>S6</em></a></li>
+  <li><a href="stage7/index.html#s16"><b>16</b> FAQs <em>S7</em></a></li>
+  <li><a href="stage7/index.html#s17"><b>17</b> RSVP <em>S7</em></a></li>
+</ul>
+
+
+<div class="callout">
+  <b>Not the real site</b>
+  Nothing here is live or final. The login accepts any code and stores nothing, the RSVP form submits nowhere, and contact and payment details are masked.
+</div>
+
+<h2>In progress — mockup rebuild, by stage</h2>
+
+<div class="v current">
+  <div class="vhead">
+    <span class="vname">Stage 1 — timeline</span>
+    <span class="vdate">16 Aug 2026</span>
+    <span class="badge">For review</span>
+  </div>
+  <p class="vnote">The timeline section rebuilt to match the Canva design: orange/yellow stripes, the wavy cream panel, Anton in orange, the 2&times;3 icon grid, scattered stars. Shown side by side with your mockup. This establishes the visual language for every stage after it — approve or redirect here, not later.</p>
+  <ul class="changes">
+    <li>Heading is straight; the mockup arcs it. Needs inline SVG if the arc matters.</li>
+    <li>Times use <strong>Caveat Brush</strong> per the font doc; the mockup uses a bold sans. Still needs sign-off.</li>
+    <li>The mockup has no descriptions under each event — mine keeps them, because the copy doc has them. One of the two should give.</li>
+    <li>Send-off reads <strong>22:00</strong>, from the mockup, not the 23:00 in <code>SITE-COPY.md</code>.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="stage1/">
+      <span class="fname">stage1/</span>
+      <span class="fdesc">Mockup vs rebuild, EN and ES.</span>
+    </a></li>
+  </ul>
+</div>
+
+<div class="v current">
+  <div class="vhead">
+    <span class="vname">Stage 2 — envelope, hero, countdown</span>
+    <span class="vdate">26 Aug 2026</span>
+    <span class="badge">For review</span>
+  </div>
+  <p class="vnote">Sections 01, 02 and 03 rebuilt to the Canva designs, each beside its mockup, in English and Spanish. The envelope and the countdown's window frame are drawn rather than placed — neither exists as an asset, they only live inside the mockup images.</p>
+  <ul class="changes">
+    <li>Login shows a single invitation code, per the locked decision. The mockup and doc still show User + Password.</li>
+    <li>Hero reads "We are getting married!" from the copy doc; the mockup says "We're".</li>
+    <li>Countdown is live, ticking to 24 Oct 2027 13:00 Canary time.</li>
+    <li>The Spanish countdown heading is long enough to wrap where the English one does not — the two languages currently lay out differently.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="stage2/">
+      <span class="fname">stage2/</span>
+      <span class="fdesc">Mockup vs rebuild, EN and ES.</span>
+    </a></li>
+  </ul>
+</div>
+
+<div class="v current">
+  <div class="vhead">
+    <span class="vname">Stage 3 &mdash; cute intro, date and place, a few words, travelling from afar</span>
+    <span class="vdate">27 Aug 2026</span>
+    <span class="badge">For review</span>
+  </div>
+  <p class="vnote">Sections 04, 05, 06 and 07 rebuilt beside their mockups, English and Spanish. The striped ground in 04, the wavy photo frame in 06 and the underline and download button in 07 are drawn as CSS gradients and generated SVG paths, so nothing is a stretched bitmap. The TV screen is a transparent hole in the frame artwork with the still sitting behind it.</p>
+  <ul class="changes">
+    <li><strong>The English and Spanish mockups are two different designs.</strong> The Spanish 05, 06 and 07 have a full wavy border, an olive ground, flowers, sparkles and a palm-and-Teide vignette; the English ones are plain cream. Built to the English set, which is the one all four agree on. If the Spanish set is the newer intent, this stage &mdash; and probably 01&ndash;03 &mdash; needs rebuilding.</li>
+    <li>The Spanish body copy in the 06 and 07 mockups is a different draft from the doc &mdash; all four paragraphs of 06 differ. Built from the doc, and closed by the copy rule.</li>
+    <li>Section 05 shows <strong>12:00</strong> per the doc. The mockups&rsquo; <em>12:00&nbsp;am</em> and <em>12:00&nbsp;h</em> are closed by the copy rule, but the doc still says <strong>12:30</strong> in the timeline and FAQ 3 &mdash; that one is doc against doc and stays open.</li>
+    <li>The album artwork in 04 uses different childhood photos from the ones in the mockup, and has <em>Tom</em> and <em>Sabi</em> baked into the bitmap &mdash; untranslatable and unreadable to a screen reader.</li>
+    <li>The travel-guide download button is drawn but wired to nothing; the two PDFs are not in the repo and the English one has no file extension.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="stage3/">
+      <span class="fname">stage3/</span>
+      <span class="fdesc">Mockup vs rebuild, EN and ES. The mockup swaps language with the toggle.</span>
+    </a></li>
+  </ul>
+</div>
+
+<div class="v current">
+  <div class="vhead">
+    <span class="vname">Stage 4 &mdash; where, stay at the hotel</span>
+    <span class="vdate">1 Oct 2026</span>
+    <span class="badge">For review</span>
+  </div>
+  <p class="vnote">Sections 08 and 09 rebuilt beside their mockups, English and Spanish. The two languages share one design here. The photo collage crops each picture inside a box of fixed proportions and turns into a grid on a phone. Google Maps, an <code>.ics</code> download, and Google, Apple and Outlook calendar links all work.</p>
+  <ul class="changes">
+    <li>The photos are the real hotel photographs from the asset folder, not the idealised pictures in the mockup &mdash; different shots, so the collage looks different.</li>
+    <li>&ldquo;Add to calendar&rdquo; is an <strong>all-day</strong> event on 24 Oct 2027. No times until the send-off (BOD-7) is settled.</li>
+    <li>The leaf and flower art along the bottom of the mockup is not in the asset folder, so it is missing.</li>
+    <li>The Apple calendar icon reads <em>JUL 17</em> &mdash; it is the stock app icon.</li>
+    <li>09 &middot; the discount code shows as the fake <code>DEMO2027</code>. The real one is printed only on the gated site (decided 1 Oct 2026).</li>
+    <li>09 &middot; the rates (&euro;193 / &euro;228) are not in <code>FACTS.md</code>.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="stage4/">
+      <span class="fname">stage4/</span>
+      <span class="fdesc">Mockup vs rebuild, EN and ES. The mockup swaps language with the toggle.</span>
+    </a></li>
+  </ul>
+</div>
+
+<div class="v current">
+  <div class="vhead">
+    <span class="vname">Stage 5 &mdash; menu, dress code</span>
+    <span class="vdate">1 Oct 2026</span>
+    <span class="badge">For review</span>
+  </div>
+  <p class="vnote">Sections 11 and 12 rebuilt beside their mockups. The wavy menu border is generated at the card&rsquo;s real size; the stripes are a CSS gradient.</p>
+  <ul class="changes">
+    <li>The five menu blocks carry the English mockup&rsquo;s headings, with Spanish ones approved 1 Oct 2026 and added to <code>SITE-COPY.md</code>.</li>
+    <li>Heading built as the doc&rsquo;s <em>MEN&Uacute;</em>; the mockup says <em>MENU</em> (BOD-12).</li>
+    <li>The dress-code line icons (hanger, arch, heel&hellip;) are not in the asset folder; the colour swatches have no wording in the doc. Both left out.</li>
+    <li>The English and Spanish menu mockups are different designs again. Built to the English one.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="stage5/">
+      <span class="fname">stage5/</span>
+      <span class="fdesc">Mockup vs rebuild, EN and ES. The mockup swaps language with the toggle. Full list of gaps at the foot.</span>
+    </a></li>
+  </ul>
+</div>
+<div class="v current">
+  <div class="vhead">
+    <span class="vname">Stage 6 &mdash; gifts, surprises, music</span>
+    <span class="vdate">1 Oct 2026</span>
+    <span class="badge">For review</span>
+  </div>
+  <p class="vnote">Sections 13, 14 and 15. Clicking the bank stamp reveals the bank lines; the song form submits nowhere.</p>
+  <ul class="changes">
+    <li><strong>Bank details, account holder, and Lorena&rsquo;s phone and email are masked</strong> &mdash; in the page and, for 14, blanked out of the mockup images too.</li>
+    <li>The <code>15.08</code> CD-sleeve artwork is a real photograph of a person, so it is replaced by a drawn sleeve. <strong>The 15 mockups themselves still show a veiled figure</strong> &mdash; decide before this goes public.</li>
+    <li>Spanish gets a <em>Desde Espa&ntilde;a</em> Bizum card (approved 1 Oct 2026). The number does not exist yet (BOD-36), so it is masked.</li>
+    <li>Bank details are chosen by language, not by country of the guest.</li>
+    <li>The song form follows the doc (title + artist); the mockup asks for a song per guest.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="stage6/">
+      <span class="fname">stage6/</span>
+      <span class="fdesc">Mockup vs rebuild, EN and ES. The mockup swaps language with the toggle. Full list of gaps at the foot.</span>
+    </a></li>
+  </ul>
+</div>
+<div class="v current">
+  <div class="vhead">
+    <span class="vname">Stage 7 &mdash; FAQs, RSVP</span>
+    <span class="vdate">1 Oct 2026</span>
+    <span class="badge">For review</span>
+  </div>
+  <p class="vnote">Sections 16 and 17. Accessible FAQ accordion; RSVP form with per-guest menu questions, submitting nowhere. A demo toggle switches between a one-guest and a four-guest invitation.</p>
+  <ul class="changes">
+    <li><strong>BOD-5 decided 1 Oct 2026:</strong> FAQ 12 is right. Under-10s get the children&rsquo;s menu automatically, 10&ndash;17s choose children&rsquo;s / adult / vegetarian, adults answer vegetarian yes/no. The demo has one guest of each kind.</li>
+    <li>Mockup 18 is a fourth design for the form (age bands, open bar, beef/veg/special diet). None of its wording is in the doc, so none of it was built.</li>
+    <li>Mockup 17 has five points with no copy in the doc &mdash; two contradict it (<em>May 2027</em>, a second reminder). The panel is built from FAQ 1 instead.</li>
+    <li>FAQ 11 and 12 are in different orders in English and Spanish.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="stage7/">
+      <span class="fname">stage7/</span>
+      <span class="fdesc">Mockup vs rebuild, EN and ES. The mockup swaps language with the toggle. Full list of gaps at the foot.</span>
+    </a></li>
+  </ul>
+</div>
+
+<h2>Animations</h2>
+
+<div class="v">
+  <div class="vhead">
+    <span class="vname">Standalone motion demos</span>
+    <span class="vdate">27 Aug 2026</span>
+    <span class="badge">For review</span>
+  </div>
+  <p class="vnote">One page per motion idea, each judged on its own before it goes anywhere near a stage. Currently two line reveals, both built on the wave generators already in the build &mdash; <code>wavePath()</code> from stage&nbsp;1 and <code>wavyLine()</code> from stage&nbsp;3, copied verbatim, so a demo cannot quietly drift from the thing it demonstrates.</p>
+  <ul class="changes">
+    <li><strong>Nothing in the Canva set implies motion.</strong> This is an addition to the design rather than a rebuild of it, and wants the same sign-off a layout change would.</li>
+    <li>Neither demo honours <code>prefers-reduced-motion</code> yet. Anything that ships must.</li>
+    <li>Whether a reveal fires on load or on scroll into view is undecided.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="animations/">
+      <span class="fname">animations/</span>
+      <span class="fdesc">Index of the standalone animations.</span>
+    </a></li>
+  </ul>
+</div>
+
+<h2>Versions</h2>
+
+<div class="v current">
+  <div class="vhead">
+    <span class="vname">v4 — the whole site, one page</span>
+    <span class="vdate">4 Oct 2026</span>
+    <span class="badge">Current</span>
+  </div>
+  <p class="vnote">All seventeen rebuilt sections in order, as a guest would see them: the envelope first (only the prototype code <code>DEMO2027</code> opens it), then 02&ndash;17 with a sticky jump nav and one EN/ES switch for the whole page. Built from the stage folders by <code>scripts/build-site-v4.py</code> &mdash; the stages stay the source, so fix a section there and rebuild.</p>
+  <ul class="changes">
+    <li>Still a prototype: <code>DEMO2027</code> opens it (case and spaces ignored), any other code is refused with a message, and it is remembered until you press <code>Lock</code>. The check runs in the browser, so it keeps casual visitors out but is not a real gate; nothing is stored; contact and payment details are masked and the hotel code is the fake <code>DEMO2027</code>.</li>
+    <li>The jump-nav labels and the <code>Lock</code> button are prototype chrome, English only &mdash; they have no copy in <code>SITE-COPY.md</code>.</li>
+    <li>Every open question listed on the stage pages still applies here.</li>
+  </ul>
+  <ul class="files">
+    <li><a href="./">
+      <span class="fname">index.html</span>
+      <span class="fdesc">The full site, at the root. Generated; artwork in <code>site-v4/assets/</code>.</span>
+    </a></li>
+  </ul>
+</div>
+
+<div class="v">
+  <div class="vhead">
+    <span class="vname">v3 — template graphics</span>
+    <span class="vdate">16 Aug 2026</span>
+    <span class="badge old">Superseded</span>
+  </div>
+  <p class="vnote">Same layout as v2, now with the real template artwork: garden and Buddha-garden photo backgrounds, per-event timeline icons, menu illustrations, the venue gallery, the family photo in its pink frame, the bank stamp, wax seal, palms and scattered stars. 69 assets, resized and converted to WebP (2.7&nbsp;MB total, lazy-loaded).</p>
+  <ul class="changes">
+    <li>Entering a code is now remembered in <code>localStorage</code> — the site reopens on refresh until you press <code>Lock</code>.</li>
+  </ul>
+  <ul class="files">
+  </ul>
+  <p class="live">Preview: <a href="https://kisboe.github.io/sabi-tommy/" target="_blank" rel="noopener">kisboe.github.io/sabi-tommy</a> — where this build was published at <code>/site/</code> until 4 Oct 2026; v4 is there now.<br>
+  Temporary: <a class="dead" href="https://whole-garnet-9gd8.here.now/" target="_blank" rel="noopener">whole-garnet-9gd8.here.now</a> — expired 16 Aug 2026 23:57.</p>
+</div>
+
+<div class="v">
+  <div class="vhead">
+    <span class="vname">v2 — title-case script</span>
+    <span class="vdate">16 Aug 2026</span>
+    <span class="badge old">Superseded</span>
+  </div>
+  <p class="vnote">All 17 sections, EN/ES switcher, dummy code gate, live countdown, FAQ accordion, non-submitting RSVP form. Press <code>Notes</code> in the top bar for the eleven flagged copy conflicts.</p>
+  <ul class="changes">
+    <li>Norican event names set in title case — <code>CEREMONY</code> → <code>Ceremony</code>. All-caps Norican was illegible.</li>
+    <li>Gifts heading <code>GIFTS</code> → <code>Gifts</code> for consistency.</li>
+    <li>Diverges from <code>SITE-COPY.md</code>, which still has these in caps.</li>
+  </ul>
+  <p class="live">Not kept as separate files — v3 overwrote them. Published: <a class="dead" href="https://fierce-kayak-cdh4.here.now/" target="_blank" rel="noopener">fierce-kayak-cdh4.here.now</a> — anonymous, expires 24h after 16 Aug 2026 23:34.</p>
+</div>
+
+<div class="v">
+  <div class="vhead">
+    <span class="vname">v1 — first build</span>
+    <span class="vdate">16 Aug 2026</span>
+    <span class="badge old">Superseded</span>
+  </div>
+  <p class="vnote">Same scope as v2. Script headings were all-caps, which is what surfaced the Norican legibility problem. Not kept as a separate file — v2 overwrote it.</p>
+  <p class="live">Published: <a class="dead" href="https://crystal-sketch-k6sj.here.now/" target="_blank" rel="noopener">crystal-sketch-k6sj.here.now</a> — stale, expires 16 Aug 2026 23:18.</p>
+</div>
+
+<h2>Still open</h2>
+<div class="callout" style="border-left-color:#2f5d43;background:rgba(47,93,67,.08);color:#1d3b2b">
+  <b>Copy rule, locked 27 Aug 2026</b>
+  <code>SITE-COPY.md</code> always takes precedence over the Canva mockups for wording. Anything below
+  that is a mockup-vs-doc wording difference is closed in favour of the doc. It does not settle
+  contradictions inside the doc itself, structure, copy baked into artwork, or layout.
+</div>
+<ul class="changes" style="margin-left:0">
+  <li><s><strong>FAQ 12 vs the RSVP form</strong></s> — decided 1 Oct 2026: FAQ 12 is right; the form asks each age band its own question (stage 7).</li>
+  <li><strong>12:00 vs 12:30/13:00</strong> — section 05 disagrees with the timeline.</li>
+  <li><strong>Send-off 23:00 vs 22:00</strong> — the Canva timeline mockup says <strong>22:00</strong>, matching the open-bar maths. <code>SITE-COPY.md</code> and the prototype still say 23:00 and need correcting.</li>
+  <li><strong>Spanish register</strong> — sections use <em>ustedes</em>, FAQs and Gifts use <em>tú/vosotros</em>. Locked decision is vosotros/tú; rewrite is M0 work, deliberately not done in the prototype.</li>
+  <li><strong>Bizum number</strong> for Sabi — still missing.</li>
+  <li><strong>Menu structure</strong> — the mockup breaks the menu into five named blocks (Welcome Cocktail, The Wedding Meal, Sweet Moment, Late Night Bites &amp; Drinks, Friendly Reminder). The docs have it as flat paragraphs.</li>
+  <li><strong>English and Spanish mockups are different designs</strong> &mdash; from section 05 onward the Spanish Canva set has a wavy border, olive ground and extra illustration the English set does not. One of the two has to win before more sections are built.</li>
+  <li><strong>Type specimen</strong> — Caveat Brush for timeline numerals and Anton's lack of an italic still need sign-off at M1.</li>
+</ul>
+
+<footer>
+  Prototypes only — no backend, no database, no real gate.
+</footer>
+
+</div>
+</body>
+</html>
