@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Stage 2 — envelope, hero, countdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Norican&family=Alex+Brush&family=Anton&family=DM+Mono:wght@400;500&family=Caveat+Brush&family=Anonymous+Pro:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f5ede3;        /* hero display, sampled from 02.headernames.png */
+  --cream-warm:#faf1e5;   /* countdown heading, from 03.countdown.png      */
+  --envelope:#f1e3d9;     /* envelope body, from 01.envelope and login.png */
+  --gold:#efc98d;
+  --orange-ink:#eb6c18;
+  --dark:#0b110f;         /* countdown window frame                        */
+  --seal:#c4697c;
+  --f-script:'Norican',cursive;
+  --f-script2:'Alex Brush',cursive;
+  --f-display:'Anton',sans-serif;
+  --f-body:'DM Mono',monospace;
+  --f-ui:'Anonymous Pro',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#efe7d8;font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+
+/* review chrome only */
+#bar{position:sticky;top:0;z-index:40;display:flex;gap:10px;align-items:center;
+  padding:9px 14px;background:#fffdf8;border-bottom:1px solid rgba(0,0,0,.12);font-family:var(--f-ui);font-size:12px}
+#bar .tag{margin-right:auto;letter-spacing:.14em;text-transform:uppercase;font-size:10px;color:#6b7a70}
+.lang{display:inline-flex;border:1px solid rgba(0,0,0,.2);border-radius:999px;overflow:hidden}
+.lang button{font-family:var(--f-ui);font-size:12px;border:0;background:transparent;padding:5px 12px;cursor:pointer;color:#4d6154}
+.lang button[aria-current="true"]{background:var(--orange-ink);color:#fff}
+.secttl{font-family:var(--f-ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:#6b7a70;background:#fffdf8;padding:12px 16px;border-top:1px solid rgba(0,0,0,.12)}
+.side{display:grid;grid-template-columns:1fr 1fr;align-items:start}
+.side > div{min-width:0}
+.side .mockimg{width:100%;display:block}
+.cap{font-family:var(--f-ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  padding:7px 12px;color:#6b7a70;background:#fffdf8;border-bottom:1px solid rgba(0,0,0,.08)}
+.hint{font-family:var(--f-ui);font-size:11px;color:#6b7a70;padding:14px 18px;line-height:1.7;
+  background:#fffdf8;border-top:1px solid rgba(0,0,0,.1)}
+.hint b{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:10px;margin-bottom:4px;color:#b4472e}
+
+/* ---------- 01 envelope + login ---------- */
+.env-sect{position:relative;min-height:660px;display:flex;align-items:center;justify-content:center;
+  padding:52px 22px;overflow:hidden;text-align:center}
+.env-sect .bg{position:absolute;inset:0;background:url(assets/bg-garden.webp) center/cover;
+  filter:brightness(.52) saturate(1.05)}
+.env-sect .bg::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 42%,rgba(16,28,18,.15) 0%,rgba(12,22,15,.72) 100%)}
+.env-sect .inner{position:relative;z-index:2;width:100%;max-width:400px}
+.envelope{width:100%;max-width:340px;margin:0 auto 26px;display:block;filter:drop-shadow(0 22px 44px rgba(0,0,0,.45))}
+.env-title{font-family:var(--f-script);font-size:clamp(34px,6.4vw,54px);color:var(--cream-warm);
+  line-height:1.15;margin:0 0 26px}
+.field{margin:0 0 16px;text-align:left}
+.field label{display:block;font-family:var(--f-ui);font-size:11px;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(250,241,229,.82);margin:0 0 7px}
+.field input{width:100%;font-family:var(--f-ui);font-size:15px;letter-spacing:.16em;
+  padding:12px 14px;border:1px solid rgba(250,241,229,.6);border-radius:7px;
+  background:rgba(250,241,229,.06);color:var(--cream-warm);text-align:center;text-transform:uppercase}
+.field input::placeholder{color:rgba(250,241,229,.35)}
+.env-star{position:absolute;z-index:3;pointer-events:none}
+
+/* ---------- 02 header + names ---------- */
+.hero{position:relative;min-height:520px;display:flex;align-items:center;justify-content:center;
+  padding:64px 26px;overflow:hidden;text-align:center}
+.hero .bg{position:absolute;inset:0;background:url(assets/bg-budha.webp) center/cover;filter:brightness(.6)}
+.hero .bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(14,26,16,.34),rgba(14,26,16,.56))}
+.hero .inner{position:relative;z-index:2;width:100%}
+.hero-kicker{font-family:var(--f-script);font-size:clamp(26px,4.6vw,44px);color:var(--gold);margin:0 0 2px}
+.hero-names{font-family:var(--f-display);font-size:clamp(52px,11.5vw,116px);color:var(--cream);
+  line-height:.96;letter-spacing:.02em;margin:0 0 18px;text-transform:uppercase;
+  text-shadow:0 3px 26px rgba(0,0,0,.4)}
+.hero-rule{display:block;max-width:440px;margin:0 auto 10px;opacity:.95}
+.hero-scroll{font-family:var(--f-ui);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.hero-star{position:absolute;z-index:3;pointer-events:none}
+
+/* ---------- 03 countdown ---------- */
+.cd-sect{padding:30px 22px;background:#171a17}
+.cd-window{
+  position:relative;max-width:760px;margin:0 auto;aspect-ratio:3/2;
+  border-radius:46px;background:var(--dark);
+  padding:38px 34px;box-shadow:0 26px 60px rgba(0,0,0,.5);
+}
+.cd-glass{position:absolute;inset:38px 34px;border-radius:26px;overflow:hidden;
+  background:url(assets/bg-teide.webp) center/cover}
+.cd-glass::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,.05) 0%,rgba(0,0,0,.45) 100%);
+  box-shadow:inset 0 0 60px rgba(0,0,0,.55)}
+.cd-inner{position:absolute;inset:38px 34px;z-index:2;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:16px}
+.cd-head{display:flex;align-items:flex-end;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:6%}
+.cd-pre{font-family:var(--f-display);font-size:clamp(18px,3.2vw,34px);color:var(--cream-warm);
+  letter-spacing:.02em;line-height:1;text-transform:uppercase}
+.cd-quote{font-family:var(--f-script);font-size:clamp(22px,3.8vw,40px);color:var(--orange-ink);
+  line-height:1;transform:translateY(6px) rotate(-4deg)}
+.cd-nums{display:flex;align-items:flex-start;justify-content:center;gap:clamp(6px,1.8vw,20px)}
+.cd-cell:first-child{margin-right:clamp(8px,2.2vw,26px)}   /* days stands apart, as in the mockup */
+.cd-cell{min-width:52px}
+.cd-cell b{display:block;font-family:var(--f-display);font-weight:400;
+  font-size:clamp(28px,5.6vw,58px);color:var(--cream-warm);line-height:1}
+.cd-cell span{display:block;font-family:var(--f-ui);font-size:clamp(9px,1.3vw,13px);
+  color:rgba(250,241,229,.85);margin-top:4px}
+.cd-sep{font-family:var(--f-display);font-size:clamp(22px,4.4vw,46px);color:rgba(250,241,229,.8);line-height:1.1}
+@media(max-width:900px){ .cd-window{border-radius:30px;padding:22px 18px} .cd-glass,.cd-inner{inset:22px 18px} }
+</style>
+</head>
+<body>
+
+<div id="bar">
+  <span class="tag">Stage 2 · envelope, hero, countdown</span>
+  <span class="lang">
+    <button data-lang="en" aria-current="true">EN</button>
+    <button data-lang="es" aria-current="false">ES</button>
+  </span>
+</div>
+
+<div class="secttl">01 — Envelope and login</div>
+<div class="side">
+  <div><div class="cap">Your mockup</div><img class="mockimg" src="assets/mockup-01.webp" alt=""></div>
+  <div><div class="cap">Rebuilt in HTML</div><div id="s01"></div></div>
+</div>
+
+<div class="secttl">02 — Header and names</div>
+<div class="side">
+  <div><div class="cap">Your mockup</div><img class="mockimg" src="assets/mockup-02.webp" alt=""></div>
+  <div><div class="cap">Rebuilt in HTML</div><div id="s02"></div></div>
+</div>
+
+<div class="secttl">03 — Countdown</div>
+<div class="side">
+  <div><div class="cap">Your mockup</div><img class="mockimg" src="assets/mockup-03.webp" alt=""></div>
+  <div><div class="cap">Rebuilt in HTML</div><div id="s03"></div></div>
+</div>
+
+<div class="hint">
+  <b>Decisions and divergences in this stage</b>
+  <strong>01</strong> — the mockup shows <em>User</em> and <em>Password</em>; you locked a single invitation-code field, so that is what is built. The envelope is drawn in SVG: there is no envelope asset in the template folder, it only exists inside the mockup image.<br>
+  <strong>02</strong> — the mockup reads "We're getting married!", the copy doc reads "We are getting married!". The doc wins here; say if the contraction is the intent.<br>
+  <strong>03</strong> — the window frame is drawn in CSS, again because there is no asset for it. Your mockup labels the units <em>días / hrs / min / s</em> even in the English design; I have used English labels in EN and Spanish in ES. And the mockup's countdown is decorative — this one is live, ticking to 24 Oct 2027 13:00 Canary time.
+</div>
+
+<script>
+const COPY = {
+ en:{
+  gate:{title:"You've got a mail!", label:'Invitation code', ph:'SABITOM'},
+  hero:{kicker:'We are getting married!', names:'Sabi &amp; Tom', scroll:'Scroll down to rsvp'},
+  cd:{pre:'Days until we say', quote:'“I do”', units:['days','hrs','min','s']}
+ },
+ es:{
+  gate:{title:'¡Tienes una invitación!', label:'Código de invitación', ph:'SABITOM'},
+  hero:{kicker:'¡Nos casamos!', names:'Sabi &amp; Tom', scroll:'Formulario de asistencia al final de la página'},
+  cd:{pre:'Días que faltan para decir', quote:'“Sí quiero”', units:['días','hrs','min','s']}
+ }
+};
+const TARGET = new Date('2027-10-24T13:00:00+01:00');   // Atlantic/Canary, still WEST on 24 Oct
+let LANG = 'en';
+
+/* The envelope only exists inside the mockup image, so it is drawn. */
+function envelopeSVG(){
+  return `<svg class="envelope" viewBox="0 0 340 226" aria-hidden="true">
+    <rect x="1" y="1" width="338" height="224" rx="6" fill="#f1e3d9"/>
+    <path d="M1 7 L170 132 L339 7" fill="none" stroke="rgba(120,96,84,.30)" stroke-width="2"/>
+    <path d="M1 219 L120 116" fill="none" stroke="rgba(120,96,84,.22)" stroke-width="2"/>
+    <path d="M339 219 L220 116" fill="none" stroke="rgba(120,96,84,.22)" stroke-width="2"/>
+    <circle cx="170" cy="118" r="30" fill="#c4697c"/>
+    <circle cx="170" cy="118" r="30" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="2"/>
+    <text x="170" y="130" text-anchor="middle"
+      style="font-family:'Alex Brush',cursive;font-size:34px;fill:#7c3a46">S&amp;T</text>
+  </svg>`;
+}
+
+function render(){
+  const t = COPY[LANG];
+  document.documentElement.lang = LANG;
+
+  document.getElementById('s01').innerHTML = `
+    <section class="env-sect">
+      <div class="bg"></div>
+      <img class="env-star" src="assets/star-yellow.webp" alt="" style="height:62px;left:7%;top:20%">
+      <img class="env-star" src="assets/star-pastel.webp" alt="" style="height:44px;right:9%;top:27%">
+      <img class="env-star" src="assets/star-pastel.webp" alt="" style="height:34px;left:12%;bottom:20%">
+      <img class="env-star" src="assets/star-yellow.webp" alt="" style="height:40px;right:11%;bottom:16%">
+      <div class="inner">
+        ${envelopeSVG()}
+        <h2 class="env-title">${t.gate.title}</h2>
+        <div class="field">
+          <label for="code">${t.gate.label}</label>
+          <input id="code" type="text" autocomplete="off" spellcheck="false" placeholder="${t.gate.ph}">
+        </div>
+      </div>
+    </section>`;
+
+  document.getElementById('s02').innerHTML = `
+    <section class="hero">
+      <div class="bg"></div>
+      <img class="hero-star" src="assets/star-orange.webp" alt="" style="height:34px;left:6%;top:20%">
+      <img class="hero-star" src="assets/star-pink.webp" alt="" style="height:26px;right:8%;top:16%">
+      <img class="hero-star" src="assets/star-brown.webp" alt="" style="height:24px;left:10%;bottom:22%">
+      <img class="hero-star" src="assets/star-orange.webp" alt="" style="height:38px;right:6%;bottom:18%">
+      <div class="inner">
+        <div class="hero-kicker">${t.hero.kicker}</div>
+        <div class="hero-names">${t.hero.names}</div>
+        <img class="hero-rule" src="assets/bar-stars.webp" alt="">
+        <div class="hero-scroll">${t.hero.scroll}</div>
+      </div>
+    </section>`;
+
+  document.getElementById('s03').innerHTML = `
+    <section class="cd-sect">
+      <div class="cd-window">
+        <div class="cd-glass"></div>
+        <div class="cd-inner">
+          <div class="cd-head">
+            <span class="cd-pre">${t.cd.pre}</span>
+            <span class="cd-quote">${t.cd.quote}</span>
+          </div>
+          <div class="cd-nums" id="cd">
+            ${t.cd.units.map((u,i)=>
+              (i>1 ? '<span class="cd-sep">:</span>' : '') +
+              `<div class="cd-cell"><b>–</b><span>${u}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </section>`;
+
+  document.querySelectorAll('.lang button').forEach(b=>
+    b.setAttribute('aria-current', b.dataset.lang===LANG ? 'true':'false'));
+  tick();
+}
+
+function tick(){
+  const cd = document.getElementById('cd');
+  if(!cd) return;
+  const s = Math.max(0, Math.floor((TARGET - new Date())/1000));
+  const v = [Math.floor(s/86400), Math.floor(s%86400/3600), Math.floor(s%3600/60), s%60];
+  cd.querySelectorAll('.cd-cell b').forEach((b,i)=> b.textContent = v[i]);
+}
+setInterval(tick, 1000);
+
+document.addEventListener('click', e=>{
+  const b = e.target.closest('.lang button');
+  if(!b) return;
+  LANG = b.dataset.lang;
+  render();
+});
+render();
+</script>
+</body>
+</html>

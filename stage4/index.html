@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Stage 4 — where, stay at the hotel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Norican&family=DM+Mono:wght@400;500&family=Anonymous+Pro:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f6eee2;        /* page ground, sampled from 08.where.png       */
+  --green-ink:#2b4a36;    /* heading, body, buttons                       */
+  --pink:#f1a7a0;         /* sparkle dividers (Spanish mockup)            */
+  --sage:#b9c19d;         /* 09 ground, sampled from 09.stayinthehotel.png */
+  --pink-ink:#a8434a;     /* 09 month line: mockup pink (#ca6f72) darkened for contrast on sage */
+  --f-script:'Norican',cursive;
+  --f-script2:'Dancing Script',cursive;
+  --f-body:'DM Mono',monospace;
+  --f-ui:'Anonymous Pro',monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#efe7d8;font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+
+/* review chrome only */
+#bar{position:sticky;top:0;z-index:40;display:flex;gap:10px;align-items:center;
+  padding:9px 14px;background:#fffdf8;border-bottom:1px solid rgba(0,0,0,.12);font-family:var(--f-ui);font-size:12px}
+#bar .tag{margin-right:auto;letter-spacing:.14em;text-transform:uppercase;font-size:10px;color:#6b7a70}
+.lang{display:inline-flex;border:1px solid rgba(0,0,0,.2);border-radius:999px;overflow:hidden}
+.lang button{font-family:var(--f-ui);font-size:12px;border:0;background:transparent;padding:5px 12px;cursor:pointer;color:#4d6154}
+.lang button[aria-current="true"]{background:#eb6c18;color:#fff}
+.secttl{font-family:var(--f-ui);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:#6b7a70;background:#fffdf8;padding:12px 16px;border-top:1px solid rgba(0,0,0,.12)}
+[id]{scroll-margin-top:44px}
+.side{display:grid;grid-template-columns:1fr 1fr;align-items:start}
+.side > div{min-width:0}
+.side .mockimg{width:100%;display:block}
+.cap{font-family:var(--f-ui);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  padding:7px 12px;color:#6b7a70;background:#fffdf8;border-bottom:1px solid rgba(0,0,0,.08)}
+.hint{font-family:var(--f-ui);font-size:11px;color:#6b7a70;padding:14px 18px;line-height:1.7;
+  background:#fffdf8;border-top:1px solid rgba(0,0,0,.1)}
+.hint b{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:10px;margin-bottom:4px;color:#b4472e}
+.hint ul{margin:8px 0 14px;padding-left:18px}
+.hint li{margin:0 0 6px}
+
+/* ---------- 08 where ---------- */
+.wh{position:relative;overflow:hidden;background:var(--cream);padding:30px 0 52px;
+  text-align:center;color:var(--green-ink);container-type:inline-size}
+.wh-plant{position:absolute;z-index:1;pointer-events:none;width:auto}
+.wh-plant.l{height:min(130px,19cqw);left:5%;top:16px}
+.wh-plant.r{height:min(130px,19cqw);right:4%;top:14px}
+.wh-inner{position:relative;z-index:2;padding:0 24px}
+.wh-h{font-family:var(--f-script2);font-weight:600;font-size:clamp(52px,15cqw,96px);
+  line-height:1;margin:0 0 10px}
+.wh-body{max-width:min(520px,66cqw);margin:0 auto;font-size:clamp(12px,2.6cqw,14px);line-height:1.9}
+.wh-body p{margin:0}
+.wh-spark{display:block;width:13px;height:13px;margin:10px auto}
+
+/* Collage: the hotel in the middle, four snapshots overlapping its corners.
+   Each photo is cropped by object-fit inside a box of fixed proportions —
+   never resized to a different aspect. */
+.wh-collage{position:relative;width:100%;aspect-ratio:100/64;margin:26px 0 14px}
+.wh-collage img{position:absolute;display:block;object-fit:cover}
+.wh-hero{left:17%;top:8%;width:66%;height:68%;box-shadow:0 8px 22px rgba(60,50,30,.22)}
+.wh-snap{width:27%;aspect-ratio:1/1;background:#fbf8f2;padding:1.3%;
+  box-shadow:0 6px 16px rgba(60,50,30,.25);z-index:2}
+.wh-snap.tl{left:0;top:2%;transform:rotate(-4deg)}
+.wh-snap.bl{left:1.5%;top:52%;transform:rotate(3deg)}
+.wh-snap.tr{right:0;top:-2%;transform:rotate(5deg)}
+.wh-snap.br{right:.5%;top:47%;transform:rotate(-3deg)}
+@container (max-width:460px){
+  .wh-plant.l,.wh-plant.r{height:15cqw;top:10px}
+  .wh-body{max-width:none}
+  .wh-collage{aspect-ratio:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 18px}
+  .wh-collage img{position:static;transform:none}
+  .wh-hero{grid-column:1/-1;width:100%;height:auto;aspect-ratio:1280/857}
+  .wh-snap{width:100%}
+  .wh-snap.tl,.wh-snap.br{transform:rotate(-2deg)}
+  .wh-snap.tr,.wh-snap.bl{transform:rotate(2deg)}
+}
+
+.wh-building{display:block;height:min(74px,14cqw);width:auto;margin:0 auto 18px}
+.wh-venue{display:inline-flex;gap:10px;align-items:flex-start;margin:0 0 18px;text-align:center;
+  font-family:var(--f-body);font-weight:500;font-size:clamp(13px,2.8cqw,16px);line-height:1.5}
+.wh-venue svg{flex:none;width:18px;height:24px;margin-top:2px}
+.wh-btn{display:flex;align-items:center;justify-content:center;gap:14px;
+  width:min(380px,84%);margin:0 auto 14px;padding:12px 18px;border:2px solid var(--green-ink);
+  border-radius:14px;background:transparent;color:var(--green-ink);text-decoration:none;cursor:pointer;
+  font-family:var(--f-body);font-size:clamp(13px,2.8cqw,15px)}
+.wh-btn:hover{background:rgba(43,74,54,.06)}
+.wh-btn svg{flex:none;width:24px;height:24px}
+.wh-cals{display:flex;justify-content:center;gap:clamp(26px,9cqw,64px);margin-top:2px}
+.wh-cals a{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--green-ink)}
+.wh-cals a > svg{width:14px;height:20px}
+.wh-cals img{height:46px;width:auto;display:block}
+
+/* ---------- 09 stay at the hotel ---------- */
+.st{position:relative;overflow:hidden;background:var(--sage);padding:30px 0 40px;
+  text-align:center;color:var(--green-ink);container-type:inline-size}
+.st-plant{position:absolute;z-index:1;pointer-events:none;width:auto}
+.st-plant.l{height:min(250px,30cqw);left:2%;top:40px}
+.st-plant.r{height:min(250px,30cqw);right:2%;top:46px}
+.st-inner{position:relative;z-index:2;padding:0 24px}
+.st-h{font-family:var(--f-script);font-weight:400;font-size:clamp(54px,15cqw,104px);
+  line-height:1.02;margin:clamp(40px,10cqw,70px) auto 18px;max-width:min(470px,58cqw);color:var(--cream)}
+.st-body{max-width:min(520px,66cqw);margin:0 auto;font-size:clamp(12px,2.6cqw,14px);line-height:1.9}
+.st-body p{margin:0}
+.st-icons{display:flex;align-items:flex-end;justify-content:center;gap:clamp(14px,5cqw,40px);
+  margin:26px auto 4px;padding:0 18px}
+.st-icons img{display:block;width:auto}
+.st-icons .bld{height:min(96px,13cqw)}
+.st-icons .sun{height:min(78px,11cqw)}
+.st-icons .cof{height:min(70px,10cqw)}
+.st-rule{display:flex;align-items:center;gap:10px;margin:18px 7% 14px}
+.st-rule::before,.st-rule::after{content:"";flex:1;height:1px;background:rgba(246,238,226,.75)}
+.st-rule img{height:22px;width:auto;display:block}
+.st-info{display:grid;grid-template-columns:1fr 1px 1fr;gap:clamp(12px,3cqw,22px);
+  margin:0 7%;text-align:left;font-size:clamp(12px,2.4cqw,14px);line-height:1.6}
+.st-info .div{background:rgba(43,74,54,.35)}
+.st-info .cell{display:flex;gap:12px;align-items:center}
+.st-info .cell img{flex:none;width:auto}
+.st-info .tag{height:min(62px,10cqw)}
+.st-info .map{height:min(52px,8.5cqw)}
+.st-info p{margin:0}
+.st-code{font-weight:500;letter-spacing:.08em;white-space:nowrap}
+.st-box{margin:22px 7% 0;border:2px solid var(--green-ink);border-radius:18px;padding:14px 16px 16px}
+.st-rh{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 6px;
+  font-family:var(--f-script);font-weight:400;font-size:clamp(34px,7cqw,44px);line-height:1}
+.st-rh svg{width:26px;height:22px;flex:none}
+.st-rates{width:100%;border-collapse:collapse;table-layout:fixed}
+.st-rates caption{font-family:var(--f-body);font-weight:500;font-size:clamp(12px,2.6cqw,15px);line-height:1.5;padding-bottom:8px}
+.st-rates caption span{display:block}
+.st-rates .mo{color:var(--pink-ink);font-weight:400;letter-spacing:.08em}
+.st-rates th,.st-rates td{padding:2px 8px;text-align:center;vertical-align:bottom}
+.st-rates th{font-weight:400;font-size:clamp(12px,2.4cqw,14px);line-height:1.35}
+.st-rates th svg{display:inline-block;vertical-align:-5px;height:22px;width:auto;margin-right:8px}
+.st-rates td{font-weight:500;font-size:clamp(22px,5cqw,30px);line-height:1.2}
+.st-rates tr > :first-child{border-right:1.5px solid var(--green-ink)}
+@container (max-width:460px){
+  .st-plant.l,.st-plant.r{height:24cqw;top:20px}
+  .st-h{max-width:62cqw;margin-top:16cqw}
+  .st-body{max-width:none}
+  .st-icons .bld{height:15cqw}.st-icons .sun{height:12cqw}.st-icons .cof{height:11cqw}
+  .st-info{grid-template-columns:1fr;margin:0 18px}
+  .st-info .div{height:1px}
+  .st-info .tag{height:48px}.st-info .map{height:40px}
+  .st-box,.st-rule{margin-left:18px;margin-right:18px}
+  .st-rates th svg{display:block;margin:0 auto 4px}
+}
+
+@media(max-width:820px){ .side{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<div id="bar">
+  <span class="tag">Stage 4 · where, stay at the hotel</span>
+  <span class="lang">
+    <button data-lang="en" aria-current="true">EN</button>
+    <button data-lang="es" aria-current="false">ES</button>
+  </span>
+</div>
+
+<div class="secttl">08 — Where?</div>
+<div class="side">
+  <div><div class="cap">Your mockup</div><img class="mockimg" id="m08" src="assets/mockup-08.webp" alt=""></div>
+  <div><div class="cap">Rebuilt in HTML</div><div id="s08"></div></div>
+</div>
+
+<div class="secttl">09 — Stay at the hotel</div>
+<div class="side">
+  <div><div class="cap">Your mockup</div><img class="mockimg" id="m09" src="assets/mockup-09.webp" alt=""></div>
+  <div><div class="cap">Rebuilt in HTML</div><div id="s09"></div></div>
+</div>
+
+<div class="hint">
+  <b>Copy rule</b>
+  <strong><code>SITE-COPY.md</code> always takes precedence.</strong> Every string in these sections is
+  verbatim from the doc; the mockup is a design reference, not a copy source.
+
+  <b>Still open — these are not wording, so the rule does not settle them</b>
+  <ul>
+    <li><strong>The photos are not the mockup's photos.</strong> The mockup's five pictures are
+      idealised renders; the asset folder has real photographs of the hotel, and they are different
+      shots — the bottom-left is an aerial view of the gardens, not a path, and the top-right is a
+      portrait-shaped table photo cropped square. Built with the real ones. Say if any should be swapped.</li>
+    <li><strong>The leaf and flower artwork along the bottom of the mockup is not in the asset
+      folder.</strong> Only the two top plants and the building drawing exist as files
+      (<code>08.06</code>–<code>08.08</code>). Left out rather than cut out of the mockup.</li>
+    <li><strong>The Apple calendar icon says <em>JUL 17</em>.</strong> It is the stock app icon, so
+      it reads as a date — and not ours. Either accept it as a logo, or re-export it showing
+      <em>OCT 24</em>.</li>
+    <li><strong>"Add to calendar" is an all-day event</strong> on 24 October 2027, by your call:
+      the send-off time (22:00 or 23:00, BOD-7) is still open, so the event carries no times. The
+      main button downloads an <code>.ics</code> file, which every calendar app opens; the three
+      icons go to Google, Apple (the same <code>.ics</code>) and Outlook. The event title is just
+      <em>Sabi &amp; Tom</em> — the doc has no wording for it, so I did not invent any.</li>
+    <li><strong>Body type.</strong> The doc says DM Mono; the mockup is a rounded sans. Same question
+      as stages 3 and up.</li>
+    <li><strong>Spanish register.</strong> The doc's 08 uses <em>ustedes</em>
+      (<em>compartir este lugar único con ustedes</em>); the locked decision is <em>vosotros/tú</em>.
+      Left verbatim, so the rewrite happens once, as one job.</li>
+    <li><strong>09 · <code>DEMO2027</code> is a fake discount code.</strong> Decided 1 Oct 2026: the
+      code is printed, as the doc has it, but this public preview shows a placeholder. The real code
+      goes in only on the gated site. The mockups' <em>"request the code from us"</em> is not used.</li>
+    <li><strong>09 · Grammar slip in the English doc.</strong> <em>"All the hotel information
+      it's also in the downloadable travel guide"</em> — <em>it's</em> should probably be
+      <em>is</em>. Left verbatim.</li>
+    <li><strong>09 · The travel guide is named but not linked.</strong> The sentence mentions the
+      downloadable guide (section 07), but neither doc nor mockup gives a link here. Plain text for
+      now.</li>
+    <li><strong>09 · The mockup's eyebrow <em>HOTEL BOTÁNICO &amp; THE ORIENTAL SPA GARDEN</em> is not
+      in the doc.</strong> Left out rather than adding text the copy does not contain. Add it to
+      <code>SITE-COPY.md</code> if it should stay.</li>
+    <li><strong>09 · Paragraphs.</strong> The mockup splits the doc's second paragraph in two at
+      <em>"Plus, we'd love…"</em> and moves the doc's third paragraph into the two icon cells (code
+      left, travel guide right). Built that way — same words, the third paragraph's two sentences
+      split between the cells — but the doc's second paragraph kept whole.</li>
+    <li><strong>09 · The rates are not in <code>FACTS.md</code>.</strong> €193 / €228, Deluxe Room,
+      October 2027 are typed from <code>SITE-COPY.md</code>. If they are facts that can change
+      (or go in the invitation email), they belong in <code>FACTS.md</code>.</li>
+    <li><strong>09 · The month line.</strong> The doc writes <em>October 2027</em>; the mockup shows
+      it in pink capitals. Kept the doc's casing; the pink is darkened (mockup pink on sage is about
+      2.3:1, below legible).</li>
+    <li><strong>09 · Contrast.</strong> The cream script heading on the sage ground, as in the mockup,
+      is roughly 1.6:1. It is large and decorative, but it is the section's only heading.</li>
+    <li><strong>09 · The two big header stars and the pink "rays" are approximations.</strong> Only
+      one star file exists (<code>09.07</code>); it is used for the divider. The rays round
+      <em>Rates</em> and the occupancy person icons are drawn as inline SVG — no assets for them.
+      The header stars went with the eyebrow they flank.</li>
+    <li><strong>09 · The building drawing in the asset folder (<code>09.03</code>) differs from the
+      mockup's</strong> — no lamp post, different trees. Used the file.</li>
+    <li><strong>09 · Body type and Spanish register</strong> — same questions as 08. The ES doc's 09
+      is all <em>ustedes</em> (<em>quieren, tienen, verlos</em>); the ES mockup is
+      <em>vosotros</em>.</li>
+  </ul>
+
+  <b>Settled by the copy rule — recorded, no action needed</b>
+  <ul>
+    <li><strong>The Spanish body.</strong> The mockup's three paragraphs are a different draft
+      (<em>"se celebrará… un entorno mejor… que ustedes conozcan también"</em>); the doc reads
+      <em>"tendrá lugar… un escenario mejor… compartir este lugar único con ustedes"</em>. Built from
+      the doc.</li>
+    <li><strong>Heading font.</strong> The doc names Dancing Script for <em>Where?</em>, which is
+      what the mockup appears to use.</li>
+    <li><strong>09 · Headings.</strong> The doc has <em>Rest and relax</em> /
+      <em>Descansen y relájense</em>; the mockups have <em>Rest and Relax</em> /
+      <em>Descansa y Relájate</em>. Built from the doc.</li>
+    <li><strong>09 · The Spanish body.</strong> The mockup is a different, <em>vosotros</em> draft
+      (<em>"Si queréis disfrutar al máximo… hemos conseguido tarifas especiales… volver a veros al
+      día siguiente"</em>); the doc reads <em>"Si quieren disfrutar de la experiencia completa…
+      nuestros invitados disponen de una tarifa especial… volver a verlos a todos en el
+      desayuno"</em>. Built from the doc.</li>
+    <li><strong>09 · The code sentence.</strong> Mockups: <em>request the code from us</em> /
+      <em>pedirnos el código</em>. Doc: <em>use the discount code …</em> / <em>indicar el código
+      de descuento … al hacer la reserva</em>. Built from the doc (see the open item on whether to
+      print it).</li>
+    <li><strong>09 · The Spanish room name.</strong> Mockup <em>Vista Teide o Spa</em>; doc
+      <em>Vista Teide o Vista Spa</em>. Built from the doc.</li>
+    <li><strong>09 · The ES doc's stray drafting line</strong> at the top (flagged in
+      <code>SITE-COPY.md</code>) is not published.</li>
+    <li><strong>09 · Heading font.</strong> The doc names Norican for <em>Rest and relax</em> and
+      <em>Rates</em>; loaded from Google Fonts.</li>
+  </ul>
+
+  <b>How this was drawn</b>
+  The photos are cropped with <code>object-fit: cover</code> inside boxes of fixed proportions, so
+  none is resampled to a different shape. Below about 460&nbsp;px the collage turns into a grid —
+  the overlapping layout would shrink the snapshots to thumbnails on a phone. Plants, building and
+  icons are sized by CSS <em>height</em>. The pin, calendar, arrows and sparkles are inline SVG.
+  The photos were re-encoded from the originals, which also drops any location data in them.
+  09 · The palms, building and price tag had their baked-in white fill keyed out
+  (<code>DESIGN.md</code> ramp), all icons trimmed to their art and sized by CSS <em>height</em>.
+  The rates are a real HTML <code>&lt;table&gt;</code>; the box, divider lines and rays are CSS/SVG.
+  Below about 460&nbsp;px the two info cells stack.
+
+  <b>Typography warning</b>
+  Norican, Dancing Script, DM Mono and Anonymous Pro are loaded from Google Fonts. Offline they fall back
+  to system faces and the page looks wrong. Judge the type only on the deployed preview.
+</div>
+
+<script>
+const MAPS = 'https://maps.app.goo.gl/EAmj1sPFLzrMaSvdA?g_st=ic';
+const VENUE = 'Hotel Botánico & The Oriental Spa Garden, Puerto de la Cruz, Tenerife';
+const COPY = {
+ en:{
+  h:'Where?',
+  paras:[
+    'Our wedding will take place at the gardens of the beautiful Hotel Botánico &amp; The Oriental Spa Garden, in Puerto de la Cruz, Tenerife.',
+    'A very special place for us, where we will celebrate this important day surrounded by nature, tranquillity, and beauty.',
+    'We couldn\'t have imagined a better setting for our wedding, or a more amazing team to help us bring this day to life. We are incredibly grateful to be able to celebrate here and can\'t wait to share this special place with you.'
+  ],
+  venue:'Hotel Botánico &amp; The Oriental Spa Garden<br>Puerto de la Cruz, Tenerife',
+  maps:'Open in Google Maps', cal:'Add to calendar',
+  alt:{hero:'The hotel beyond its gardens, past a red bridge and palms', bridge:'A pond with a small bridge in the hotel gardens',
+       garden:'The hotel gardens from above', table:'A dinner table laid in the gardens',
+       lights:'Tables in the gardens under strings of lights'},
+  /* 09 — the discount code is masked: this page is published publicly */
+  stay:{
+   h:'Rest and relax',
+   paras:[
+     'If you would like to enjoy the full experience and stay at the same place where we will celebrate our wedding, we have arranged special rates for our guests at Hotel Botánico &amp; The Oriental Spa Garden.',
+     'Also, if you\'re planning to make the most of the open bar, we\'d definitely recommend staying at the hotel, so you can simply relax and enjoy the celebration without worrying about getting home. Plus, we\'d love to see you all again at breakfast the next morning, unwind by the pool… and catch up on all the wedding gossip!'
+   ],
+   code:'To access these special rates, simply use the discount code <strong class="st-code">DEMO2027</strong>.',
+   guide:'All the hotel information it\'s also in the downloadable travel guide.',
+   rates:'Rates', room:'Deluxe Room (Teide View or Spa View)', month:'October 2027',
+   single:'Single occupancy', double:'Double occupancy', p1:'€193', p2:'€228',
+   alt:{bld:'Drawing of the hotel', sun:'A sunbed by the pool', cof:'Coffee and a croissant'}
+  }
+ },
+ es:{
+  h:'¿Dónde?',
+  paras:[
+    'Nuestra boda tendrá lugar en los jardines del precioso Hotel Botánico &amp; The Oriental Spa Garden, en Puerto de la Cruz, Tenerife.',
+    'Un lugar muy especial para nosotros, donde celebraremos este día tan importante rodeados de naturaleza, tranquilidad y belleza.',
+    'No podríamos haber imaginado un escenario mejor para nuestra boda, ni un equipo más increíble para ayudarnos a hacer realidad este día. Nos sentimos enormemente agradecidos de poder celebrarlo aquí y estamos deseando compartir este lugar único con ustedes.'
+  ],
+  venue:'Hotel Botánico &amp; The Oriental Spa Garden<br>Puerto de la Cruz, Tenerife',
+  maps:'Abrir en Google Maps', cal:'Añadir al calendario',
+  alt:{hero:'El hotel tras sus jardines, con un puente rojo y palmeras', bridge:'Un estanque con un pequeño puente en los jardines',
+       garden:'Los jardines del hotel vistos desde arriba', table:'Una mesa preparada en los jardines',
+       lights:'Mesas en los jardines bajo guirnaldas de luces'},
+  stay:{
+   h:'Descansen y relájense',
+   paras:[
+     'Si quieren disfrutar de la experiencia completa y alojarse en el mismo lugar donde celebraremos nuestra boda, nuestros invitados disponen de una tarifa especial en el Hotel Botánico &amp; The Oriental Spa Garden.',
+     'Además, si tienen pensado aprovechar al máximo la barra libre, les recomendamos alojarse en el hotel para que solo tengan que preocuparse de disfrutar de la celebración y no de cómo volver. Y, por supuesto, ¡nos encantará volver a verlos a todos en el desayuno de la mañana siguiente, relajarnos junto a la piscina… y ponernos al día con todos los cotilleos de la boda!'
+   ],
+   code:'Para acceder a esta tarifa especial, solo tienen que indicar el código de descuento <strong class="st-code">DEMO2027</strong> al hacer la reserva.',
+   guide:'Toda la información del hotel también está disponible en la guía de viaje descargable.',
+   rates:'Tarifas', room:'Habitación Deluxe (Vista Teide o Vista Spa)', month:'Octubre de 2027',
+   single:'Ocupación individual', double:'Ocupación doble', p1:'193 €', p2:'228 €',
+   alt:{bld:'Dibujo del hotel', sun:'Una tumbona junto a la piscina', cof:'Café y un cruasán'}
+  }
+ }
+};
+let LANG = 'en';
+
+/* ---- calendar: all-day on 24 Oct 2027, no times until BOD-7 is settled ---- */
+const EVENT_TITLE = 'Sabi & Tom';
+function icsURL(){
+  const ics = [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Sabi and Tom//Wedding//EN','BEGIN:VEVENT',
+    'UID:sabi-tom-wedding-20271024@tomandsabi.com','DTSTAMP:20261001T000000Z',
+    'DTSTART;VALUE=DATE:20271024','DTEND;VALUE=DATE:20271025',
+    'SUMMARY:' + EVENT_TITLE, 'LOCATION:' + VENUE.replace(/,/g,'\\,'), 'URL:' + MAPS,
+    'END:VEVENT','END:VCALENDAR'
+  ].join('\r\n');
+  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+}
+const googleURL = () => 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+  + '&text=' + encodeURIComponent(EVENT_TITLE) + '&dates=20271024/20271025'
+  + '&location=' + encodeURIComponent(VENUE);
+const outlookURL = () => 'https://outlook.live.com/calendar/0/deeplink/compose?path=%2Fcalendar%2Faction%2Fcompose'
+  + '&subject=' + encodeURIComponent(EVENT_TITLE) + '&startdt=2027-10-24&enddt=2027-10-25&allday=true'
+  + '&location=' + encodeURIComponent(VENUE);
+
+const SPARK = `<svg class="wh-spark" viewBox="-10 -10 20 20" aria-hidden="true"><g stroke="#f1a7a0" stroke-width="2.2" stroke-linecap="round">
+  <line x1="0" y1="-8" x2="0" y2="8"/><line x1="-8" y1="0" x2="8" y2="0"/>
+  <line x1="-5.7" y1="-5.7" x2="5.7" y2="5.7"/><line x1="-5.7" y1="5.7" x2="5.7" y2="-5.7"/></g></svg>`;
+const PIN = `<svg viewBox="0 0 18 24" aria-hidden="true"><path fill="currentColor"
+  d="M9 0C4 0 0 4 0 9c0 6.6 9 15 9 15s9-8.4 9-15c0-5-4-9-9-9zm0 12.4A3.4 3.4 0 1 1 9 5.6a3.4 3.4 0 0 1 0 6.8z"/></svg>`;
+const PIN_O = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+  <path d="M12 2.5c-4 0-7 3-7 7 0 5.3 7 12 7 12s7-6.7 7-12c0-4-3-7-7-7z"/><circle cx="12" cy="9.5" r="2.6"/></svg>`;
+const CAL_O = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+  <rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/>
+  <g fill="currentColor" stroke="none"><circle cx="8" cy="13" r="1"/><circle cx="12" cy="13" r="1"/><circle cx="16" cy="13" r="1"/>
+  <circle cx="8" cy="17" r="1"/><circle cx="12" cy="17" r="1"/><circle cx="16" cy="17" r="1"/></g></svg>`;
+const ARROW = `<svg viewBox="0 0 14 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+  <path d="M7 1v17M1.5 12.5 7 18l5.5-5.5"/></svg>`;
+
+const RAYS = (flip) => `<svg viewBox="0 0 26 22" aria-hidden="true"${flip?' style="transform:scaleX(-1)"':''}><g stroke="#e58e8a" stroke-width="2" stroke-linecap="round">
+  <line x1="4" y1="3" x2="11" y2="7"/><line x1="2" y1="11" x2="11" y2="11"/><line x1="4" y1="19" x2="11" y2="15"/></g></svg>`;
+const PERSON = `<svg viewBox="0 0 22 22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+  <circle cx="11" cy="7" r="4.2"/><path d="M2.5 21v-1.5c0-3.6 3-6 8.5-6s8.5 2.4 8.5 6V21z"/></svg>`;
+const PEOPLE = `<svg viewBox="0 0 38 22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+  <circle cx="11" cy="7" r="4.2"/><path d="M2.5 21v-1.5c0-3.6 3-6 8.5-6s8.5 2.4 8.5 6V21z"/>
+  <circle cx="27" cy="7" r="4.2"/><path d="M18.5 21v-1.5c0-3.6 3-6 8.5-6s8.5 2.4 8.5 6V21z"/></svg>`;
+
+function renderStay(){
+  const t = COPY[LANG].stay;
+  document.getElementById('m09').src = 'assets/mockup-09' + (LANG==='es' ? '-es' : '') + '.webp';
+  document.getElementById('s09').innerHTML = `
+    <section class="st">
+      <img class="st-plant l" src="assets/stay-palm-left.webp" width="284" height="340" alt="">
+      <img class="st-plant r" src="assets/stay-palm-right.webp" width="236" height="340" alt="">
+      <div class="st-inner">
+        <h2 class="st-h">${t.h}</h2>
+        <div class="st-body">${t.paras.map(p=>`<p>${p}</p>`).join(SPARK)}</div>
+      </div>
+      <div class="st-icons">
+        <img class="bld" src="assets/stay-building.webp" width="580" height="170" alt="${t.alt.bld}" loading="lazy">
+        <img class="sun" src="assets/stay-sunbed.webp" width="298" height="200" alt="${t.alt.sun}" loading="lazy">
+        <img class="cof" src="assets/stay-coffee.webp" width="215" height="200" alt="${t.alt.cof}" loading="lazy">
+      </div>
+      <div class="st-rule"><img src="assets/stay-star.webp" width="87" height="90" alt=""></div>
+      <div class="st-info">
+        <div class="cell"><img class="tag" src="assets/stay-tag.webp" width="83" height="180" alt=""><p>${t.code}</p></div>
+        <div class="div" aria-hidden="true"></div>
+        <div class="cell"><img class="map" src="assets/stay-map.webp" width="218" height="180" alt=""><p>${t.guide}</p></div>
+      </div>
+      <div class="st-box">
+        <h3 class="st-rh">${RAYS(false)}<span>${t.rates}</span>${RAYS(true)}</h3>
+        <table class="st-rates">
+          <caption><span>${t.room}</span><span class="mo">${t.month}</span></caption>
+          <thead><tr><th scope="col">${PERSON}${t.single}</th><th scope="col">${PEOPLE}${t.double}</th></tr></thead>
+          <tbody><tr><td>${t.p1}</td><td>${t.p2}</td></tr></tbody>
+        </table>
+      </div>
+    </section>`;
+}
+
+function render(){
+  const t = COPY[LANG];
+  document.documentElement.lang = LANG;
+  document.getElementById('m08').src = 'assets/mockup-08' + (LANG==='es' ? '-es' : '') + '.webp';
+
+  document.getElementById('s08').innerHTML = `
+    <section class="wh">
+      <img class="wh-plant l" src="assets/palm-left.webp" alt="">
+      <img class="wh-plant r" src="assets/palm-right.webp" alt="">
+      <div class="wh-inner">
+        <h2 class="wh-h">${t.h}</h2>
+        <div class="wh-body">${t.paras.map(p=>`<p>${p}</p>`).join(SPARK)}</div>
+      </div>
+      <div class="wh-collage">
+        <img class="wh-hero"    src="assets/photo-hotel.webp"  alt="${t.alt.hero}">
+        <img class="wh-snap tl" src="assets/photo-bridge.webp" alt="${t.alt.bridge}" loading="lazy">
+        <img class="wh-snap tr" src="assets/photo-table.webp"  alt="${t.alt.table}"  loading="lazy">
+        <img class="wh-snap bl" src="assets/photo-garden.webp" alt="${t.alt.garden}" loading="lazy">
+        <img class="wh-snap br" src="assets/photo-lights.webp" alt="${t.alt.lights}" loading="lazy">
+      </div>
+      <div class="wh-inner">
+        <img class="wh-building" src="assets/building.webp" alt="">
+        <p class="wh-venue">${PIN}<span>${t.venue}</span></p>
+        <a class="wh-btn" href="${MAPS}" target="_blank" rel="noopener">${PIN_O}<span>${t.maps}</span></a>
+        <a class="wh-btn" href="${icsURL()}" download="sabi-tom-wedding.ics">${CAL_O}<span>${t.cal}</span></a>
+        <div class="wh-cals">
+          <a href="${googleURL()}" target="_blank" rel="noopener" aria-label="Google Calendar">${ARROW}<img src="assets/cal-google.webp" alt=""></a>
+          <a href="${icsURL()}" download="sabi-tom-wedding.ics" aria-label="Apple Calendar">${ARROW}<img src="assets/cal-apple.webp" alt=""></a>
+          <a href="${outlookURL()}" target="_blank" rel="noopener" aria-label="Outlook">${ARROW}<img src="assets/cal-outlook.webp" alt=""></a>
+        </div>
+      </div>
+    </section>`;
+
+  renderStay();
+
+  document.querySelectorAll('.lang button').forEach(b=>
+    b.setAttribute('aria-current', b.dataset.lang===LANG ? 'true':'false'));
+}
+
+document.addEventListener('click', e=>{
+  const b = e.target.closest('.lang button');
+  if(!b) return;
+  LANG = b.dataset.lang;
+  render();
+});
+render();
+</script>
+</body>
+</html>
